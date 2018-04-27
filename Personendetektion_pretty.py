@@ -228,6 +228,19 @@ def print_test_accuracy(show_example_errors=False,
         plot_confusion_matrix(cls_pred=cls_pred)
 
 
+# Load the training data into two NumPy arrays
+with np.load("/var/data/training_data.npy") as data:
+  features = data["features"]
+  labels = data["labels"]
+
+# Assume that each row of `features` corresponds to the same row as `labels`.
+assert features.shape[0] == labels.shape[0]
+
+train_features_placeholder = tf.placeholder(features.dtype, features.shape)
+train_labels_placeholder = tf.placeholder(labels.dtype, labels.shape)
+
+trainSet = tf.data.Dataset.from_tensor_slices((features_placeholder, labels_placeholder))
+
 
 print("Size of:")
 print("- Training-set:\t\t{}".format(len(train.labels)))
