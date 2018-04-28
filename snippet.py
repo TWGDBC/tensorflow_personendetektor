@@ -2,7 +2,7 @@
 """
 Created on Fri Apr  6 23:28:54 2018
 
-@author: User
+@author: Daniel Zimmermann
 """
 
 import os

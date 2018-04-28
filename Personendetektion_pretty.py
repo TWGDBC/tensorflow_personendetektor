@@ -8,6 +8,7 @@ Created on Tue Apr 17 13:10:06 2018
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+
 # Import classes and functions
 import tensorflow as tf
 import prettytensor as pt
@@ -229,9 +230,10 @@ def print_test_accuracy(show_example_errors=False,
 
 
 # Load the training data into two NumPy arrays
-with np.load("/var/data/training_data.npy") as data:
-  features = data["features"]
+with np.load("prepared_data/training_data.npy") as data:
+  images = data["Pixels"]
   labels = data["labels"]
+  
 
 # Assume that each row of `features` corresponds to the same row as `labels`.
 assert features.shape[0] == labels.shape[0]
