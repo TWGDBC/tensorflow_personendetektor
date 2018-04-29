@@ -4,37 +4,52 @@ import pandas as pd
 import numpy as np
 import datetime
 #loading the data sets from the csv files
-print('--------load train & validation & test ------')
+print('--------load train & validation & test Files ------')
 
-trainSet = pd.DataFrame()
-validationSet = pd.DataFrame()
+trainImages = pd.DataFrame()
+trainLabels = pd.DataFrame()
+testImages = pd.DataFrame()
+testLabels = pd.DataFrame()
+trainNbr = pd.DataFrame()
+tstNbr = pd.DataFrame()
 #testSet
 
- ## 
+
+ 
 def mergeFilesToTrainSet(filelist,labelNumber):
     
     for value in filelist:  
-        global trainSet
-        data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=0)
+        global trainImages
+        global trainLabels
+        global trainNbr
+        
+        data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=0,)
         ## delete Timestamp and Thermistor Data
         data.pop("Timestamp")
-        data.pop('Thermistor')
-        labels = pd.DataFrame(data = np.ones((len(data),1))*labelNumber, columns=['labels'])
-        data = pd.concat([data, labels] ,axis = 1)
-        trainSet = pd.concat([trainSet,data],axis = 0)
+        #data=data.rename(columns = {'Timestamp':'Nmbr'})
+        data.pop('Thermistor') 
+        newTrainLabels = pd.DataFrame(data = np.ones((len(data),1))*labelNumber, columns=['labels'])
+        trainImages = pd.concat([trainImages,data],axis = 0)
+        #trainImages['Nmbr']=trainImages['Nmbr'].fill(trainImages.index.to_series())
+        trainLabels = pd.concat([trainLabels,newTrainLabels],axis = 0)
+        
         #trainSet.drop_duplicates()
         
-def mergeFilesToValidationSet(filelist,labelNumber):
+def mergeFilesToTestSet(filelist,labelNumber):
     
     for value in filelist:  
-        global validationSet
-        data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=0)
+        global testImages
+        global testLabels
+        global testNbr
+        data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=0,)
         data.pop("Timestamp")
         data.pop('Thermistor')
-        labels = pd.DataFrame(data = np.ones((len(data),1))*labelNumber, columns=['labels'])
-        data = pd.concat([data, labels],axis = 1)
-        validationSet = pd.concat([validationSet,data],axis = 0)
-        #validationSet.drop_duplicates()        
+        newTestLabels = pd.DataFrame(data = np.ones((len(data),1))*labelNumber, columns=['labels'])
+        testImages = pd.concat([testImages,data],axis = 0)
+        testLabels = pd.concat([testLabels,newTestLabels],axis = 0)
+        #validationSet.drop_duplicates()     
+        
+        
  
     
 #def mergeFiles_train_80_test_20    :
@@ -178,20 +193,49 @@ mergeFilesToTrainSet(train_person2_files,2)
 mergeFilesToTrainSet(train_person3_files,3)
 mergeFilesToTrainSet(train_person4_files,4)
 
+## adds image NMBR
+trainImages.insert(64, 'Nmbr', range(0, 0 + len(trainImages)))
+trainLabels.insert(1, 'Nmbr', range(0, 0 + len(trainLabels)))
 
-#trainSet.to_csv('prepared_data/trainSet_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.csv', sep=',', encoding='utf-8')
+
+
 
 ###############################################################################
-
 #choice features
-mergeFilesToValidationSet([filenameV0_1],0)
-mergeFilesToValidationSet([filenameV1_1, filenameV1_2, filenameV1_3, filenameV1_4],1)
-mergeFilesToValidationSet([filenameV2_1],2)
+mergeFilesToTestSet([filenameV0_1],0)
+mergeFilesToTestSet([filenameV1_1, filenameV1_2, filenameV1_3, filenameV1_4],1)
+mergeFilesToTestSet([filenameV2_1],2)
+
+## adds Labell NMBR
+testImages.insert(64, 'Nmbr', range(0, 0 + len(testImages)))
+testLabels.insert(1, 'Nmbr', range(0, 0 + len(testLabels)))
 
 ###############################################################################
 # Store to 
 
-#validationSet.to_csv('prepared_data/ValidationSet_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.csv', sep=',', encoding='utf-8')
-#trainSet.to_csv('prepared_data/trainSet_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.csv', sep=',', encoding='utf-8')
+testImages.to_csv('prepared_data/testImages_'+
+                  str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
+                  '.csv',
+                  sep=',',
+                  encoding='utf-8',
+                  index=False)
+trainImages.to_csv('prepared_data/trainImages_'+
+                   str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
+                   '.csv',
+                   sep=',',
+                   encoding='utf-8',
+                   index=False)
+testLabels.to_csv('prepared_data/testLabels_'+
+                  str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
+                  '.csv',
+                  sep=',',
+                  encoding='utf-8',
+                  index=False)
+trainLabels.to_csv('prepared_data/trainLabels_'+
+                   str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
+                   '.csv',
+                   sep=',',
+                   encoding='utf-8',
+                   index=False)
 
-print("------finish loading --------------------")
+print("------finish Generating --------------------")

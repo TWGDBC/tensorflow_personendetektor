@@ -11,13 +11,12 @@ from __future__ import print_function
 
 # Import classes and functions
 import tensorflow as tf
-import prettytensor as pt
+#import prettytensor as pt
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
 from datetime import timedelta
 import time
-import math
+import input_data
+
 # helper functions
     
 # creates Tensoflow objects for, return the weights
@@ -26,7 +25,6 @@ def get_weights_variable(layer_name):
     # with the given layer_name.
     # This is awkward because the TensorFlow function was
     # really intended for another purpose.
-
     with tf.variable_scope(layer_name, reuse=True):
         variable = tf.get_variable('weights')
 
@@ -52,7 +50,7 @@ def optimize(num_iterations):
         # Get a batch of training examples.
         # x_batch now holds a batch of images and
         # y_true_batch are the true labels for those images.
-        x_batch, y_true_batch = data.train.next_batch(train_batch_size)
+        x_batch, y_true_batch = train.next_batch(train_batch_size)
 
         # Put the batch into a dict with the proper names
         # for placeholder variables in the TensorFlow graph.
@@ -114,66 +112,6 @@ def optimize(num_iterations):
     # Print the time-usage.
     print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 
-# plots the incorrect images
-def plot_example_errors(cls_pred, correct):
-    # This function is called from print_test_accuracy() below.
-
-    # cls_pred is an array of the predicted class-number for
-    # all images in the test-set.
-
-    # correct is a boolean array whether the predicted class
-    # is equal to the true class for each image in the test-set.
-
-    # Negate the boolean array.
-    incorrect = (correct == False)
-    
-    # Get the images from the test-set that have been
-    # incorrectly classified.
-    images = test.images[incorrect]
-    
-    # Get the predicted classes for those images.
-    cls_pred = cls_pred[incorrect]
-
-    # Get the true classes for those images.
-    cls_true = test.cls[incorrect]
-    
-    # Plot the first 9 images.
-    plot_images(images=images[0:9],
-                cls_true=cls_true[0:9],
-                cls_pred=cls_pred[0:9])
-    
-def plot_confusion_matrix(cls_pred):
-    # This is called from print_test_accuracy() below.
-
-    # cls_pred is an array of the predicted class-number for
-    # all images in the test-set.
-
-    # Get the true classifications for the test-set.
-    cls_true = test.cls
-    
-    # Get the confusion matrix using sklearn.
-    cm = confusion_matrix(y_true=cls_true,
-                          y_pred=cls_pred)
-
-    # Print the confusion matrix as text.
-    print(cm)
-
-    # Plot the confusion matrix as an image.
-    plt.matshow(cm)
-
-    # Make various adjustments to the plot.
-    plt.colorbar()
-    tick_marks = np.arange(cnt_classes)
-    plt.xticks(tick_marks, range(cnt_classes))
-    plt.yticks(tick_marks, range(cnt_classes))
-    plt.xlabel('Predicted')
-    plt.ylabel('True')
-
-    # Ensure the plot is shown correctly with multiple plots
-    # in a single Notebook cell.
-    plt.show()
-    
-
 def print_test_accuracy(show_example_errors=False,
                         show_confusion_matrix=False):
 
@@ -195,9 +133,9 @@ def print_test_accuracy(show_example_errors=False,
         # The ending index for the next batch is denoted j.
         j = min(i + test_batch_size, num_test)
         # Get the images from the test-set between index i and j.
-        images = data.test.images[i:j, :]
+        images = test.images[i:j, :]
         # Get the associated labels.
-        labels = data.test.labels[i:j, :]
+        labels = test.labels[i:j, :]
         # Create a feed-dict with these images and labels.
         feed_dict = {x: images,
                      y_true: labels}
@@ -223,40 +161,23 @@ def print_test_accuracy(show_example_errors=False,
     if show_example_errors:
         print("Example errors:")
         plot_example_errors(cls_pred=cls_pred, correct=correct)
-    # Plot the confusion matrix, if desired.
-    if show_confusion_matrix:
-        print("Confusion Matrix:")
-        plot_confusion_matrix(cls_pred=cls_pred)
 
 
-# Load the training data into two NumPy arrays
-with np.load("prepared_data/training_data.npy") as data:
-  images = data["Pixels"]
-  labels = data["labels"]
-  
-
-# Assume that each row of `features` corresponds to the same row as `labels`.
-assert features.shape[0] == labels.shape[0]
-
-train_features_placeholder = tf.placeholder(features.dtype, features.shape)
-train_labels_placeholder = tf.placeholder(labels.dtype, labels.shape)
-
-trainSet = tf.data.Dataset.from_tensor_slices((features_placeholder, labels_placeholder))
-
+###############################################################################
+# Load training and test data
+(train, test, validation) = input_data.read_data_sets('prepared_data/')
 
 print("Size of:")
-print("- Training-set:\t\t{}".format(len(train.labels)))
-print("- Test-set:\t\t{}".format(len(test.labels)))
-print("- Validation-set:\t{}".format(len(validation.labels)))
+print("- Training-set:\t\t{}".format(len(train)))
+print("- Test-set:\t\t{}".format(len(test)))
+print("- Validation-set:\t{}".format(len(validation)))
+###############################################################################
+
 
 test.cls = np.argmax(test.labels, axis=1)
 
-# changes teh All train set data in a 8x8 image as flaot 32 -> also available on raspberry pi
-train.images = trainSet[:, 1:].reshape(train.shape[0], 1, 8, 8).astype( 'float32' )
-test = testSet.reshape(test.shape[0], 1, 8, 8).astype( 'float32' )
 
-
-# We know that MNIST images are 28 pixels in each dimension.
+# We know that the images are 8 pixels in each dimension.
 img_size = 8
 # Images are stored in one-dimensional arrays of this length.
 img_size_flat = img_size * img_size
@@ -264,10 +185,10 @@ img_size_flat = img_size * img_size
 img_shape = (img_size, img_size)
 # Number of colour channels for the images: 1 channel for gray-scale.
 cnt_channels = 1
-# Number of classes, one class for each of 10 digits.
+# Number of classes, one class for the amount of person [0,1,2,3,4,5]
 cnt_classes = 5
 #fully-connected layer size
-fc_size = 50
+fc_size = 64
 
 
 # lerning rate
@@ -275,7 +196,7 @@ learning_rate = 0.001
 # number of iterations
 num_iterations = 1000
 # 
-Pixel = tf.placeholder(tf.float32, shape=[None, img_size_flat], name='Pixel')
+Pixels = tf.placeholder(tf.float32, shape=[None, img_size_flat], name='Pixel')
 # batch must be 4 Dimensions, so reshape
 Pixel_image = tf.reshape(Pixel, [-1, img_size, img_size, cnt_channels])
 # 
@@ -283,25 +204,53 @@ cnt_true = tf.placeholder(tf.float32, shape=[None, cnt_classes], name='cnt_true'
 # compare
 cnt_true_cls = tf.argmax(cnt_true, dimension=1)
 
-# create objects of xpretty form the image
-if False:
-    cnt_cnn = pt.wrap(Pixel_image)
 
+# create a layer implementation
+net = Pixel_image
+# conv layer 1
+net = tf.layers.conv2d(inputs=net, name='layer_conv1', padding='same',
+                       filters=16, kernel_size=5, activation=tf.nn.relu)
+layer_conv1 = net
+net = tf.layers.max_pooling2d(inputs=net, pool_size=2, strides=2)
+# conv layer 2
+net = tf.layers.conv2d(inputs=net, name='layer_conv2', padding='same',
+                       filters=36, kernel_size=3, activation=tf.nn.relu)
+layer_conv2 = net
+net = tf.layers.max_pooling2d(inputs=net, pool_size=2, strides=2)
+# flatten layer
+net = tf.contrib.layers.flatten(net)
+# Fully connected layer
+net = tf.layers.dense(inputs=net, name='layer_fc1',
+                      units=fc_size, activation=tf.nn.relu)
+net = tf.layers.dense(inputs=net, name='layer_fc_out',
+                      units=cnt_classes, activation=None)
+
+# create objects of xpretty form the image
+#if False:
+#    cnt_cnn = pt.wrap(Pixel_image)
 # pretty Tensor makes the hole layers easier 
 # pt.defualts_scope is automatic relu, else activation_fn = 
-    with pt.defaults_scope(activation_fn=tf.nn.relu):
-        cnt_pred, loss = cnt_cnn.\
-            conv2d(kernel=5, depth=16, name='layer_conv1').\
-            max_pool(kernel=2, stride=2).\
-            conv2d(kernel=2, depth=16, name='layer_conv2').\
-            max_pool(kernel=2, stride=2).\
-            flatten().\
-            fully_connected(size=fc_size, name='layer_fc1').\
-            softmax_classifier(num_classes=cnt_classes, labels=cnt_true)
-    
+#    with pt.defaults_scope(activation_fn=tf.nn.relu):
+#        cnt_pred, loss = cnt_cnn.\
+#            conv2d(kernel=5, depth=16, name='layer_conv1').\
+#            max_pool(kernel=2, stride=2).\
+#            conv2d(kernel=2, depth=16, name='layer_conv2').\
+#            max_pool(kernel=2, stride=2).\
+#            flatten().\
+#            fully_connected(size=fc_size, name='layer_fc1').\
+#            softmax_classifier(num_classes=cnt_classes, labels=cnt_true)
     
 weights_conv1 = get_weights_variable(layer_name='layer_conv1')
-weights_conv2 = get_weights_variable(layer_name='layer_conv2')
+weights_conv2 = get_weights_variable(layer_name='layer_conv2')  
+
+logits = net
+cnt_pred = tf.nn.softmax(logits=logits)
+# compare
+cnt_true_cls = tf.argmax(cnt_pred, dimension=1)
+
+# loss function
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=cnt_true, logits=logits)
+loss = tf.reduce_mean(cross_entropy)
     
 #optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
 optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(loss)
@@ -332,7 +281,6 @@ best_validation_accuracy = 0.0
 last_improvement = 0
 # Stop optimization if no improvement found in this many iterations.
 require_improvement = 1000
-
 
 optimize(num_iterations=num_iterations) # We performed 1000 iterations above.
 
