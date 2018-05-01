@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 from datetime import timedelta
-import math
 from input_data import read_data_sets
 from sklearn.metrics import confusion_matrix
 # helpfer fucntion to create weights
