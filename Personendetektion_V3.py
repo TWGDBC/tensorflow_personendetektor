@@ -26,7 +26,7 @@ learning_rate = 0.001
 total_iterations = 0
 # number of iterations
 num_iterations = 10000 # 10000
-# btch sizes
+# batch sizes
 train_batch_size = 200 # 200
 test_batch_size = 200 # 200
 batch_size = 200
