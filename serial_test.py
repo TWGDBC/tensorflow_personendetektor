@@ -10,7 +10,7 @@ import time
 import numpy as np
 
 
-ser = ps.Serial('COM10', baudrate= 9600, bytesize= ps.EIGHTBITS, timeout = 5)
+ser = ps.Serial('COM5', baudrate= 9600, bytesize= ps.EIGHTBITS, timeout = 5)
 
 try:
     while 1:
@@ -18,10 +18,10 @@ try:
         a = bytearray(bytes(ser.readline()))
         z= list(a)
         i = 0
-        a = ser.readline()
-        print(a)
+        #a = ser.readline()
+        #print(a)
         for i in range(len(z)):
-           print(hex(z[i]))
+           print(type(z[i]))
 
 
         

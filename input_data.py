@@ -119,10 +119,13 @@ def read_data_sets(train_dir,
                    reshape=True,
                    validation_size=3000):
     TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'
+   # TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'   
     TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'
+   # TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'   
     TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'
+   # TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'   
     TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'
-
+   # TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'
     train_labels = extract_labels(train_dir+TRAIN_LABELS, one_hot=one_hot)
     train_images = extract_images(train_dir+TRAIN_IMAGES)
     test_labels = extract_labels(train_dir+TEST_LABELS, one_hot=one_hot)  

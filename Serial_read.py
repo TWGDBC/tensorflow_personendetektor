@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import serial as ps
 from array import array
+import datetime as dt
 import time
 import os
 import threading
@@ -20,6 +21,10 @@ PARITY   = ps.PARITY_NONE
 STOPBITS = ps.STOPBITS_ONE
 BYTESIZE = ps.SEVENBITS
 TIMEOUT = 1
+
+
+thermistor = [0 for x in range(2)]
+temperature = [[0 for x in range(2)] for y in range(64)] 
 
 # check if you use RPI or Anaconda Win10
 isOSWin10 = True
@@ -48,27 +53,51 @@ def fAMG_PUB_CMN_ConvStoF(shVal):
 
 ## THREADS Helperfunction
 def handle_data(data):
+    global thermistor
+    global temperature
+    bytelist = list(bytearray(bytes(data)))
+    bytelist.remove(42)
+    for i in range(len(bytelist())):
+        if (i == 0)|(i == 1)|(i == 2):
+            print("header")
+        elif i == 3:
+            thermistor[0] = bytelist[i]
+        elif i == 4:
+            thermistor[1] = bytelist[i]
+        elif i ==132:
+            temperature[1][63] = bytelist[i]
+            for j in range(64):
+                #Zeichenumrechnung auf Floatzahl
+                for k in range(2):
+                    s_temp = shAMG_PUB_TMP_ConvTemperature(temperature[i-1][j-1])
+                    f_temp = fAMG_PUB_CMN_ConvStoF(s_temp)
+                    print("Pixel %2d:  %3.3f" % (j,f_temp))
+            s_therm = shAMG_PUB_TMP_ConvThermistor(thermistor);
+            f_therm = fAMG_PUB_CMN_ConvStoF(s_therm);
+            print("%3.4f,", f_therm);
+            print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")));
+            print("\n");
+        else:
+            temperature[int((i-3) / 2)+((i-3) % 2)][int((i-3)% 2)] = bytelist[i]
+           
+        # zuordnung der Werte
+    
       
-        bytelist = list(bytearray(bytes(data))
-        for i in range(len(bytelist)):
-            if i == 0: 
-        
-            if i 
+                                   
             
-
 
 def read_from_port(ser, conect):
 
      while conect:
          reading = ser.readline()
-         handle_data(str(reading))
+         handle_data(reading)
 
             
 
                 
 if isOSWin10:
     print("Version Lenovo Windows 10")
-    PORT = 'COM10'
+    PORT = 'COM5'
     
     ser = ps.Serial(
             port=PORT,\
@@ -100,10 +129,11 @@ else:
             timeout=TIMEOUT)
     print("connected to: " + ser.portstr)
  
-thread1 = threading.Thread(target=read_from_port, args=(ser,CONNECTED))
-thread1.daemon = True
-thread1.start()
+#thread1 = threading.Thread(target=read_from_port, args=(ser,CONNECTED))
+#thread1.daemon = True
+#thread1.start()
 
+read_from_port(ser,CONNECTED)
 try:
     while(1):
         time.sleep(1)
