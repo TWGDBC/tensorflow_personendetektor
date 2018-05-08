@@ -21,17 +21,19 @@ import math
 import time
 import input_data
 
-tf.__version__
+print(tf.__version__)
 
 # Variables
 
 # lerning rate
-learning_rate = 0.001
+learning_rate = 0.0001
 # Counter for total number of iterations performed so far.
 total_iterations = 0
 # number of iterations
-num_iterations = 10000 # 10000
+num_iterations = 20000 # 10000
 # batch sizes
+#
+validation_size = 15000
 train_batch_size = 500 # 200
 test_batch_size = 500 # 200
 batch_size = 500
@@ -48,13 +50,16 @@ img_shape = (img_size, img_size)
 cnt_channels = 1
 # Number of classes, one class for the amount of person [0,1,2,3,4]
 cnt_classes = 5
-# Convolutional Layer 1.
-filter_size1 = 5          # Convolution filters are 5 x 5 pixels.
-num_filters1 = 16         # There are 16 of these filters.
+# Convolutional Layer 1. 0.9934, 0.9964
+filter_size1 = 5    #5      # Convolution filters are 5 x 5 pixels.
+num_filters1 = 32    #32   # There are 16 of these filters.
 # Convolutional Layer 2.
-filter_size2 = 5          # Convolution filters are 5 x 5 pixels.
-num_filters2 = 36         # There are 36 of these filters.
-#fully-connected layer size
+filter_size2 = 3   #3       # Convolution filters are 3 x 3 pixels.
+num_filters2 = 24    #32    # There are 36 of these filters.
+
+filter_size3 = 2   #3       # Convolution filters are 3 x 3 pixels.
+num_filters3 = 16    #32    # There are 36 of these filters.
+#fully-connected layer size --> fc_size klein halten, Exponential features
 fc_size = 64
     
 # Best validation accuracy seen so far.# Best v 
@@ -71,7 +76,7 @@ def init_variables():
     session.run(tf.global_variables_initializer())
     
 def plot_images(images, cls_true, cls_pred=None):
-    assert len(images) == len(cls_true) == 9
+    assert len(images) == len(cls_true) == 5
     
     # Create figure with 3x3 sub-plots.
     fig, axes = plt.subplots(3, 3)
@@ -93,20 +98,21 @@ def plot_images(images, cls_true, cls_pred=None):
         # Remove ticks from the plot.
         ax.set_xticks([])
         ax.set_yticks([])
-    
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
     plt.show()
+    
 def plot_confusion_matrix(cls_pred):
     # This is called from print_test_accuracy() below.
     # cls_pred is an array of the predicted class-number for
     # all images in the test-set.
     # Get the true classifications for the test-set.
     cls_true = test.cls 
+    labels = [0,1,2,3,4]
     # Get the confusion matrix using sklearn.
     cm = confusion_matrix(y_true=cls_true,
-                          y_pred=cls_pred)
-
+                          y_pred=cls_pred, labels= labels)
+# hier ansetzen
     # Print the confusion matrix as text.
     print(cm)
     # Plot the confusion matrix as an image.
@@ -188,7 +194,7 @@ def optimize(num_iterations):
         # Get a batch of training examples.
         # cnt_batch now holds a batch of images and
         # cnt_true_batch are the true labels for those images.
-        cnt_batch, cnt_true_batch = train.next_batch(train_batch_size)
+        cnt_batch, cnt_true_batch = train.next_batch(train_batch_size, shuffle = True)
 
         # Put the batch into a dict with the proper names
         # for placeholder variables in the TensorFlow graph.
@@ -375,7 +381,8 @@ def validation_accuracy():
 
 ###############################################################################
 # Load training and test data
-(train, test, validation) = input_data.read_data_sets('prepared_data/')
+# prepared Train Test Data, Validation Data is shuffle from Train
+(train, test, validation) = input_data.read_data_sets('prepared_data/', validation_size = validation_size)
 
 print("Size of:")
 print("- Training-set:\t\t{}".format(len(train.images)))
@@ -406,14 +413,21 @@ conv1 = tf.layers.conv2d(inputs=pixel_input, name='layer_conv1', padding='same',
                        filters=num_filters1, kernel_size=filter_size1, activation=tf.nn.relu)
 
 pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=2, strides=2)
+###############################################################################
 # conv layer 2
 conv2 = tf.layers.conv2d(inputs=pool1, name='layer_conv2', padding='same',
                        filters=num_filters2, kernel_size=filter_size2, activation=tf.nn.relu)
 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=2, strides=1)
+###############################################################################
+## Eventuell nötig
+conv3 = tf.layers.conv2d(inputs=pool2, name='layer_conv3', padding='same',
+                       filters=num_filters3, kernel_size=filter_size3, activation=tf.nn.relu)
+pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=2, strides=1)
+###############################################################################
 # flatten layer
-pool2 = tf.layers.flatten(pool2)
+flatten = tf.layers.flatten(pool3)
 # Fully connected layer
-fc1 = tf.layers.dense(inputs=pool2, name='layer_fc1',
+fc1 = tf.layers.dense(inputs=flatten, name='layer_fc1',
                       units=fc_size, activation=tf.nn.relu)
 fc2 = tf.layers.dense(inputs=fc1, name='layer_fc_out',
                       units=cnt_classes, activation=None)
@@ -428,17 +442,23 @@ cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=cnt_true, logits=
 loss = tf.reduce_mean(cross_entropy, name= "loss")
     
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+
+## Alle schlecht !!! nicht optimal für lösung
+#optimizer = tf.train.RMSPropOptimizer(learning_rate=learning_rate).minimize(loss)
 #optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(loss)
+#optimizer = tf.train.AdadeltaOptimizer(learning_rate = learning_rate).minimize(loss)
+#optimizer = tf.train.MomentumOptimizer(learning_rate = learning_rate).minimize(loss)
+#optimizer = tf.train.AdagradOptimizer(learning_rate = learning_rate).minimize(loss)
 
 correct_prediction  = tf.equal(cnt_pred_cls, cnt_true_cls, name = 'correct_prediciton')
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name = 'accuracy')
 
 # needed for Save and Restore evaluated Model params
-saver = tf.train.Saver(max_to_keep= 100)
+saver = tf.train.Saver(max_to_keep= 200)
 save_path = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/tensorflow_personendetektor/tmp/model_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.ckpt'
 restore_path = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/tensorflow_personendetektor/tmp/model_2018-05-05_21-51-54.ckpt'
 # graphical 
-writer = tf.summary.FileWriter('./graphs', tf.get_default_graph())
+#writer = tf.summary.FileWriter('./graphs', tf.get_default_graph())
 
 tf.summary.scalar("loss", loss)
 tf.summary.histogram("histogram_loss", loss)
@@ -457,7 +477,7 @@ optimize(num_iterations=num_iterations) # We performed 1000 iterations above.
 print_test_accuracy(False,True)
 
 # Restore variables from disk.
-saver.restore(sess=session, save_path=restore_path)
+#saver.restore(sess=session, save_path=restore_path)
 
-print_test_accuracy(False,True)
+#print_test_accuracy(False,True)
 

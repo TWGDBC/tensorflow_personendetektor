@@ -117,14 +117,14 @@ class DataSet(object):
 def read_data_sets(train_dir,
                    one_hot=True,
                    reshape=True,
-                   validation_size=3000):
-    TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'
+                   validation_size=5000):
+    TEST_IMAGES = 'testImages_2018-05-08_15-01-33.csv'
    # TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'   
-    TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'
+    TEST_LABELS = 'testLabels_2018-05-08_15-01-48.csv'
    # TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'   
-    TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'
+    TRAIN_IMAGES ='trainImages_2018-05-08_15-01-34.csv'
    # TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'   
-    TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'
+    TRAIN_LABELS ='trainLabels_2018-05-08_15-01-48.csv'
    # TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'
     train_labels = extract_labels(train_dir+TRAIN_LABELS, one_hot=one_hot)
     train_images = extract_images(train_dir+TRAIN_IMAGES)
@@ -135,7 +135,10 @@ def read_data_sets(train_dir,
         raise ValueError(
                 'Validation size should be between 0 and {}. Received: {}.'
                 .format(len(train_images), validation_size))
-        
+    perm0 = np.arange(len(train_labels))
+    np.random.shuffle(perm0)
+    train_images = train_images[perm0]
+    train_labels = train_labels[perm0]   
     validation_images = train_images[:validation_size]
     validation_labels = train_labels[:validation_size]
     train_images = train_images[validation_size:]

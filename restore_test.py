@@ -95,5 +95,5 @@ finally:
     if CONNECTED == True:
         CONNECTED = False
     ser.flush()
-    ser.clos()
+    ser.close()
             
