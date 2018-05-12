@@ -1,2 +1,2 @@
-model_checkpoint_path: "C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/tensorflow_personendetektor/tmp/model_2018-05-08_20-21-06.ckpt"
-all_model_checkpoint_paths: "C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/tensorflow_personendetektor/tmp/model_2018-05-08_20-21-06.ckpt"
+model_checkpoint_path: "C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/model_2018-05-12_11-30-43.ckpt"
+all_model_checkpoint_paths: "C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/model_2018-05-12_11-30-43.ckpt"

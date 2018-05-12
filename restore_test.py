@@ -25,6 +25,10 @@ def print_actual_predict():
     msg = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+"   Evaluated Class: {1}"
     print(msg.format(cnt_pred_cls))
 
+
+##############################################################################
+#CNN
+    
 #We know that the images are 8 pixels in each dimension.
 img_size = 8
 # Images are stored in one-dimensional arrays of the length 64.

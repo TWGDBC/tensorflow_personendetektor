@@ -117,28 +117,43 @@ class DataSet(object):
 def read_data_sets(train_dir,
                    one_hot=True,
                    reshape=True,
-                   validation_size=5000):
-    TEST_IMAGES = 'testImages_2018-05-08_15-01-33.csv'
-   # TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'   
-    TEST_LABELS = 'testLabels_2018-05-08_15-01-48.csv'
-   # TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'   
-    TRAIN_IMAGES ='trainImages_2018-05-08_15-01-34.csv'
-   # TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'   
-    TRAIN_LABELS ='trainLabels_2018-05-08_15-01-48.csv'
-   # TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'
+                   shuffle=False,
+                   validation_size=20000):
+    #TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'      # Profil 0
+    #TEST_IMAGES = 'testImages_2018-05-08_15-01-33.csv'      # Profil 1
+    #TEST_IMAGES = 'testImages_2018-05-11_16-59-49.csv'      # Profil 2
+
+    
+    #TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'     # Profil 0
+    #TEST_LABELS = 'testLabels_2018-05-08_15-01-48.csv'     # Profil 1
+    #TEST_LABELS = 'testLabels_2018-05-11_16-59-55.csv'      # Profil 2
+
+    TEST_IMAGES ='trainImages_2018-04-30_14-51-15.csv'    # Profil 0
+    #TRAIN_IMAGES ='trainImages_2018-05-08_15-01-34.csv'    # Profil 1 generisch
+    #TRAIN_IMAGES ='trainImages_2018-05-11_16-59-51.csv'    # Profil 2 rein
+    TRAIN_IMAGES = 'trainImages_2018-05-12_08-26-45.csv'    # Profi 2 generisch
+    
+   
+    TEST_LABELS ='trainLabels_2018-04-30_14-51-17.csv'    # Profil 0 
+    #TRAIN_LABELS ='trainLabels_2018-05-08_15-01-48.csv'    # Profil 1 generisch
+    #TRAIN_LABELS ='trainLabels_2018-05-11_16-59-55.csv'    # Profil 2 rein
+    TRAIN_LABELS ='trainLabels_2018-05-12_08-27-00.csv'    #Profil 2 generisch
+    
+
+    
     train_labels = extract_labels(train_dir+TRAIN_LABELS, one_hot=one_hot)
     train_images = extract_images(train_dir+TRAIN_IMAGES)
     test_labels = extract_labels(train_dir+TEST_LABELS, one_hot=one_hot)  
     test_images = extract_images(train_dir+TEST_IMAGES)
-    
     if not 0 <= validation_size <= len(train_images):
         raise ValueError(
                 'Validation size should be between 0 and {}. Received: {}.'
                 .format(len(train_images), validation_size))
-    perm0 = np.arange(len(train_labels))
-    np.random.shuffle(perm0)
-    train_images = train_images[perm0]
-    train_labels = train_labels[perm0]   
+    if shuffle:
+        perm0 = np.arange(len(train_labels))
+        np.random.shuffle(perm0)
+        train_images = train_images[perm0]
+        train_labels = train_labels[perm0]      
     validation_images = train_images[:validation_size]
     validation_labels = train_labels[:validation_size]
     train_images = train_images[validation_size:]
