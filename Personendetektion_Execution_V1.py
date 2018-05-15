@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Created on Tue May  1 09:47:26 2018
 
-@author: User
+@author: Daniel Zimmermann
 """
 import tensorflow as tf
 import serial as ps
@@ -13,11 +13,11 @@ import time
 
 ## Serial Variablen
 CONNECTED = False
-BAUD = 19200
+BAUD = 9600
 PARITY   = ps.PARITY_NONE
 STOPBITS = ps.STOPBITS_ONE
 BYTESIZE = ps.SEVENBITS
-TIMEOUT = 0
+TIMEOUT = 5
 
 # Helper Variablen
 thermistor = [0 for x in range(2)]
@@ -92,7 +92,7 @@ def handle_data(data):
                 pass
             else:
                 temperature[int((i-5) / 2)+((i-1) % 2)][int((i-5)% 2)] = bytelist[i]
-        print(Images[1])
+        #print(Images)
         # here lock release for same ressource
         lock.release()
         # clear event for thread2
@@ -188,7 +188,7 @@ def calculatePerson():
             # Calculate the predicted class using TensorFlow.
             cls_pred = session.run(cnt_pred_cls, feed_dict=feed_dict)
             print(cls_pred)
-            #print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")))
+            print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")))
 #            i += 1
             ## stop event for synchronisation
             stop_ev.set()
@@ -213,7 +213,7 @@ def calculatePerson():
     
 if isOSWin10:
     print("Version Lenovo Windows 10")
-    PORT = 'COM5'
+    PORT = 'COM10'
     
     ser = ps.Serial(
             port=PORT,\
@@ -247,18 +247,19 @@ else:
 
 
 ## INIT THREADS
-thread1 = threading.Thread(target=read_from_port, args=(ser, CONNECTED))
-thread1.daemon = True
+#thread1 = threading.Thread(target=read_from_port, args=(ser, CONNECTED))
+#thread1.daemon = False
 
 thread2 = threading.Thread(target=calculatePerson, args=())
 thread2.daemon = True
 lock = threading.Lock()
 
-thread1.start()
+#thread1.start()
 thread2.start()
 
 try:
     while(CONNECTED):
+        read_from_port(ser, CONNECTED)
         pass
         
 except KeyboardInterrupt:
@@ -269,9 +270,7 @@ except KeyboardInterrupt:
 finally:
     if CONNECTED == True:
         CONNECTED = False
-    ser.close()
-    if thread1.is_alive:
-        thread1._stop
+        ser.close()
     if thread2.is_alive:
         thread2._stop
         

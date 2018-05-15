@@ -16,7 +16,7 @@ BAUD = 9600
 PARITY   = ps.PARITY_NONE
 STOPBITS = ps.STOPBITS_ONE
 BYTESIZE = ps.SEVENBITS
-TIMEOUT = 0
+TIMEOUT = 5
 
 
 thermistor = [0 for x in range(2)]
@@ -90,9 +90,11 @@ def handle_data(data):
                                 
             else:
                 temperature[int((i-5) / 2)+((i-1) % 2)][int((i-5)% 2)] = bytelist[i]
-        #print(Pixels)
-        lock.release()
+        print(Pixels[20])
         print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")))
+        lock.release()
+        
+        
 
     except KeyboardInterrupt:
         CONNECTED = False
@@ -140,17 +142,17 @@ else:
             timeout=TIMEOUT)
     print("connected to: " + ser.portstr)
  
-thread1 = threading.Thread(target=read_from_port, args=(ser, CONNECTED))
-thread1.daemon = True
+#thread1 = threading.Thread(target=read_from_port, args=(ser, CONNECTED))
+#thread1.daemon = True
 lock = threading.Lock()
 
 
-thread1.start()
+#thread1.start()
 #thread2.start()
 
 try:
     while(CONNECTED):
-        pass
+        read_from_port(ser,CONNECTED)
         
 except KeyboardInterrupt:
     CONNECTED = False

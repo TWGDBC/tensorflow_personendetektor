@@ -6,6 +6,7 @@ Created on Tue May  1 14:42:59 2018
 """
 
 import serial as ps
+import datetime as dt
 import time
 import numpy as np
 
@@ -21,6 +22,8 @@ try:
         #a = ser.readline()
         #print(a)
         print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")))
+        print(z)
+        print(ser.inWaiting())
         #for i in range(len(z)):
          #  print((z[i]))
 
