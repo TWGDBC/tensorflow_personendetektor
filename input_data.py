@@ -128,16 +128,18 @@ def read_data_sets(train_dir,
     #TEST_LABELS = 'testLabels_2018-05-08_15-01-48.csv'     # Profil 1
     #TEST_LABELS = 'testLabels_2018-05-11_16-59-55.csv'      # Profil 2
 
-    TEST_IMAGES ='trainImages_2018-04-30_14-51-15.csv'    # Profil 0
-    #TRAIN_IMAGES ='trainImages_2018-05-08_15-01-34.csv'    # Profil 1 generisch
-    #TRAIN_IMAGES ='trainImages_2018-05-11_16-59-51.csv'    # Profil 2 rein
-    TRAIN_IMAGES = 'trainImages_2018-05-12_08-26-45.csv'    # Profi 2 generisch
+    #TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'    # Profil 0
+    
+    TEST_IMAGES ='Profil1E_trainImages_2018-05-11_09-15-17.csv'    # Profil 1 erweitert
+    #TRAIN_IMAGES ='Profil2_trainImages_2018-05-11_16-59-51.csv'    # Profil 2 original
+    TRAIN_IMAGES = 'Profil2E_trainImages_2018-05-12_08-26-45.csv'    # Profi 2 erweitert
     
    
-    TEST_LABELS ='trainLabels_2018-04-30_14-51-17.csv'    # Profil 0 
-    #TRAIN_LABELS ='trainLabels_2018-05-08_15-01-48.csv'    # Profil 1 generisch
-    #TRAIN_LABELS ='trainLabels_2018-05-11_16-59-55.csv'    # Profil 2 rein
-    TRAIN_LABELS ='trainLabels_2018-05-12_08-27-00.csv'    #Profil 2 generisch
+    #TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'    # Profil 0 
+    
+    TEST_LABELS ='Profil1E_trainLabels_2018-05-11_09-15-30.csv'    # Profil 1 erweitert
+    #TRAIN_LABELS ='trainLabels_2018-05-11_16-59-55.csv'    # Profil 2 original
+    TRAIN_LABELS ='Profil2E_trainLabels_2018-05-12_08-27-00.csv'    #Profil 2 erweitert
     
 
     

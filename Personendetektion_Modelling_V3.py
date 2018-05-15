@@ -411,10 +411,10 @@ pixel_input = Pixel_image
 # conv layer 1
 conv1 = tf.layers.conv2d(inputs=pixel_input, name='layer_conv1', padding='same',
                        filters=num_filters1, kernel_size=filter_size1, activation=tf.nn.relu)
-#pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=2, strides=1)
+pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=2, strides=1)
 ###############################################################################
 # conv layer 2
-conv2 = tf.layers.conv2d(inputs=conv1, name='layer_conv2', padding='same',
+conv2 = tf.layers.conv2d(inputs=pool1, name='layer_conv2', padding='same',
                        filters=num_filters2, kernel_size=filter_size2, strides = 2, activation=tf.nn.relu)
 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=2, strides=1)
 ###############################################################################
@@ -446,10 +446,11 @@ cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(labels=cnt_true, logi
 loss = tf.reduce_mean(cross_entropy, name= "loss")
     
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
-#optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(loss)
-## Alle schlecht !!! nicht optimal für lösung
-#optimizer = tf.train.RMSPropOptimizer(learning_rate=learning_rate).minimize(loss)
 
+
+## Alle nicht optimal für lösung
+#optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(loss)
+#optimizer = tf.train.RMSPropOptimizer(learning_rate=learning_rate).minimize(loss)
 #optimizer = tf.train.AdadeltaOptimizer(learning_rate = learning_rate).minimize(loss)
 #optimizer = tf.train.MomentumOptimizer(learning_rate = learning_rate).minimize(loss)
 #optimizer = tf.train.AdagradOptimizer(learning_rate = learning_rate).minimize(loss)
@@ -460,7 +461,8 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name = 'accur
 # needed for Save and Restore evaluated Model params
 saver = tf.train.Saver(max_to_keep= 200)
 save_path = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/model_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.ckpt'
-restore_path = 'C:/Users/User/switchdrive/HSLU_6_Semester\BAT/projects/Tensorflow/tmp/model_2018-05-12_10-48-23.ckpt'
+#restore_path = 'C:/Users/User/switchdrive/HSLU_6_Semester\BAT/projects/Tensorflow/tmp/model_2018-05-12_10-48-23.ckpt'
+restore_path = 'C:/Users/User/switchdrive/HSLU_6_Semester\BAT/projects/Tensorflow/tmp/model_2018-05-14_09-49-38.ckpt'
 # graphical 
 #writer = tf.summary.FileWriter('./graphs', tf.get_default_graph())
 
@@ -475,10 +477,10 @@ session = tf.Session()
 writer = tf.summary.FileWriter('./graphs', session.graph)
 
 init_variables()
-#print_test_accuracy()
-optimize(num_iterations=num_iterations) # We performed 1000 iterations above.
+print_test_accuracy()
+#optimize(num_iterations=num_iterations) # We performed 1000 iterations above.
 
-print_test_accuracy(False,True)
+#print_test_accuracy(False,True)
 
 #Restore variables from disk.
 saver.restore(sess=session, save_path=restore_path)

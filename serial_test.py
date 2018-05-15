@@ -14,14 +14,15 @@ ser = ps.Serial('COM5', baudrate= 9600, bytesize= ps.EIGHTBITS, timeout = 5)
 
 try:
     while 1:
-        print("---")
+        #print("---")
         a = bytearray(bytes(ser.readline()))
         z= list(a)
         i = 0
         #a = ser.readline()
         #print(a)
-        for i in range(len(z)):
-           print(type(z[i]))
+        print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")))
+        #for i in range(len(z)):
+         #  print((z[i]))
 
 
         

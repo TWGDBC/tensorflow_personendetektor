@@ -5,13 +5,9 @@ Created on Tue May  1 09:47:26 2018
 @author: User
 """
 import tensorflow as tf
-import numpy as np
-import pandas as pd
 import serial as ps
-from array import array
+
 import datetime as dt
-import time
-import os
 import threading
 
 
@@ -20,11 +16,12 @@ BAUD = 9600
 PARITY   = ps.PARITY_NONE
 STOPBITS = ps.STOPBITS_ONE
 BYTESIZE = ps.SEVENBITS
-TIMEOUT = 1
+TIMEOUT = 0
 
 
 thermistor = [0 for x in range(2)]
 temperature = [[0 for x in range(2)] for y in range(64)] 
+Pixels = [0.000 for x in range(64)]
 
 # check if you use RPI or Anaconda Win10
 isOSWin10 = True
@@ -53,48 +50,62 @@ def fAMG_PUB_CMN_ConvStoF(shVal):
 
 ## THREADS Helperfunction
 def handle_data(data):
-    global thermistor
-    global temperature
-    bytelist = list(bytearray(bytes(data)))
-    bytelist.remove(42)
-    for i in range(len(bytelist())):
-        if (i == 0)|(i == 1)|(i == 2):
-            print("header")
-        elif i == 3:
-            thermistor[0] = bytelist[i]
-        elif i == 4:
-            thermistor[1] = bytelist[i]
-        elif i ==132:
-            temperature[1][63] = bytelist[i]
-            for j in range(64):
-                #Zeichenumrechnung auf Floatzahl
-                for k in range(2):
-                    s_temp = shAMG_PUB_TMP_ConvTemperature(temperature[i-1][j-1])
-                    f_temp = fAMG_PUB_CMN_ConvStoF(s_temp)
-                    print("Pixel %2d:  %3.3f" % (j,f_temp))
-            s_therm = shAMG_PUB_TMP_ConvThermistor(thermistor);
-            f_therm = fAMG_PUB_CMN_ConvStoF(s_therm);
-            print("%3.4f,", f_therm);
-            print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")));
-            print("\n");
-        else:
-            temperature[int((i-3) / 2)+((i-3) % 2)][int((i-3)% 2)] = bytelist[i]
+    try:   
+        global thermistor
+        global temperature
+        bytelist = list(bytearray(bytes(data)))
+        #bytelist.remove(42)
+        lock.acquire()
+        for i in range(len(bytelist)):
+            if (i == 0)|(i == 1)|(i == 2):
+                pass
+                #print("header")
+            elif i == 3:
+                thermistor[0] = bytelist[i]
+            elif i == 4:
+                thermistor[1] = bytelist[i]
+            elif i ==132:
+                temperature[63][1] = bytelist[i]
+                for j in range(64):
+                    #Zeichenumrechnung auf Floatzahl
+                    for k in range(2):
+                        #Pixelwerte umwandeln
+                        #s_temp = shAMG_PUB_TMP_ConvTemperature(temperature[j])
+                        #f_temp = fAMG_PUB_CMN_ConvStoF(s_temp)
+                        f_temp = fAMG_PUB_CMN_ConvStoF(shAMG_PUB_TMP_ConvTemperature(temperature[j]))                     
+                        #print("Pixel %2d:  %3.3f" % (j,f_temp))
+                        
+                        #thermistorwerte umwandeln           
+                        #s_therm = shAMG_PUB_TMP_ConvThermistor(thermistor);
+                        #f_therm = fAMG_PUB_CMN_ConvStoF(s_therm);
+                        #f_therm = fAMG_PUB_CMN_ConvStoF(s_therm);
+                        
+                        #print(Thermistor "%3.4f,", f_therm);
+                        
+                        if (k == 1):
+                        
+                            Pixels[j] = f_temp 
+            elif (i == 133) | (i == 134):
+                pass
+                                
+            else:
+                temperature[int((i-5) / 2)+((i-1) % 2)][int((i-5)% 2)] = bytelist[i]
+        #print(Pixels)
+        lock.release()
+        print(str(dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")))
+
+    except KeyboardInterrupt:
+        CONNECTED = False
+        ser.flush()
+        ser.close()         
            
         # zuordnung der Werte
     
-      
-                                   
-            
+def read_from_port(ser, connect):
 
-def read_from_port(ser, conect):
+     while connect:
+         handle_data(ser.readline())
 
-     while conect:
-         reading = ser.readline()
-         handle_data(reading)
-
-            
-
-                
 if isOSWin10:
     print("Version Lenovo Windows 10")
     PORT = 'COM5'
@@ -129,14 +140,18 @@ else:
             timeout=TIMEOUT)
     print("connected to: " + ser.portstr)
  
-#thread1 = threading.Thread(target=read_from_port, args=(ser,CONNECTED))
-#thread1.daemon = True
-#thread1.start()
+thread1 = threading.Thread(target=read_from_port, args=(ser, CONNECTED))
+thread1.daemon = True
+lock = threading.Lock()
 
-read_from_port(ser,CONNECTED)
+
+thread1.start()
+#thread2.start()
+
 try:
-    while(1):
-        time.sleep(1)
+    while(CONNECTED):
+        pass
+        
 except KeyboardInterrupt:
     CONNECTED = False
     ser.flush()
@@ -144,8 +159,8 @@ except KeyboardInterrupt:
 finally:
     if CONNECTED == True:
         CONNECTED = False
-    ser.flush()
-    ser.clos()
+    ser.close()
+    thread1._stop
         
         
 
