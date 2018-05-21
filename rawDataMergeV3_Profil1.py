@@ -82,7 +82,7 @@ filename0_6 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38.csv'
 filename0_7 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate90.csv'
 filename0_8 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate180.csv'
 filename0_9 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate270.csv'
-filename0_10 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotateswap.csv'
+filename0_10 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_swap.csv'
 train_person0_files = [filename0_1, 
                        filename0_2, 
                        filename0_3,
@@ -573,7 +573,7 @@ train_person4_files = [filename4_1,
 
 
 ## 0 Person
-filenameT0_1 = 'input_data/0p_rauschen/rauschen_20_min_2018-03-13_14-09-29.csv'
+filenameT0_1 = 'input_data/0p/rauschen_20_min_2018-03-13_14-09-29.csv'
 test_person0_files = [filenameT0_1]
 
 
