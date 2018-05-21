@@ -12,7 +12,6 @@ Creates data in /input_data/...
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
 import pandas as pd
 
 
@@ -23,7 +22,14 @@ rotate180 = True
 rotate270 = True
 ###############################################################################
 
-#Helpfer functions    
+#Helpfer functions  
+
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is swapped
+param:  filelist, list of strings, which gives paths to the swapable CSV-File
+return: -
+
+"""
 def swapfkt(filelist):
     for value in filelist: 
         data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
@@ -41,7 +47,13 @@ def swapfkt(filelist):
                     sep=',',
                     encoding='utf-8',
                     index=False)
-    
+
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is rotated 90 degree
+param:  filelist, list of strings, which gives paths to the rotateable CSV-File
+return: -
+
+""" 
 def rotate90fkt(filelist):
     for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
@@ -60,7 +72,8 @@ def rotate90fkt(filelist):
                         encoding='utf-8',
                         index=False)
 
-def rotate180fkt(filelist):  
+## 
+def rotate180fkt(filelist): 
    for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
           Data180 = pd.DataFrame()
@@ -77,6 +90,7 @@ def rotate180fkt(filelist):
                         sep=',',
                         encoding='utf-8',
                         index=False)
+          
 def rotate270fkt(filelist):  
    for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
@@ -110,9 +124,15 @@ CSV_COLUMN_NAMES = ['Pixel 0' ,'Pixel 1' ,'Pixel 2' ,'Pixel 3' ,'Pixel 4' ,'Pixe
 filename0_1 = 'input_data/_M1_Bahnhof/m1_leer_2018-03-12_17-57-50.csv'
 filename0_2 = 'input_data/_M4_Aemattli/m4_leer_2018-03-21_18-44-41.csv'
 filename0_3 = 'input_data/_M5_Ennet/m5_leer_2018-03-21_19-15-37.csv'
+filename0_4 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52.csv'
+filename0_5 = 'input_data/0p/v1/0p_output_2018-05-16_17-38-14.csv'
+filename0_6 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38.csv'
 train_person0_files = [filename0_1, 
                        filename0_2, 
-                       filename0_3]
+                       filename0_3,
+                       filename0_4,
+                       filename0_5,
+                       filename0_6]
 
 ## 1 Person
 filename1_1 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16.csv'

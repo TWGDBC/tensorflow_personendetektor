@@ -12,7 +12,6 @@ Creates data in /input_data/...
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
 import pandas as pd
 
 
@@ -23,7 +22,14 @@ rotate180 = True
 rotate270 = True
 ###############################################################################
 
-#Helpfer functions    
+#Helpfer functions  
+
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is swapped
+param:  filelist, list of strings, which gives paths to the swapable CSV-File
+return: -
+
+"""  
 def swapfkt(filelist):
     for value in filelist: 
         data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
@@ -41,7 +47,13 @@ def swapfkt(filelist):
                     sep=',',
                     encoding='utf-8',
                     index=False)
-    
+ 
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is rotated 90 degree
+param:  filelist, list of strings, which gives paths to the rotateable CSV-File
+return: -
+
+""" 
 def rotate90fkt(filelist):
     for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
@@ -60,6 +72,12 @@ def rotate90fkt(filelist):
                         encoding='utf-8',
                         index=False)
 
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is rotated 180 degree
+param:  filelist, list of strings, which gives paths to the rotateable CSV-File
+return: -
+
+""" 
 def rotate180fkt(filelist):  
    for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
