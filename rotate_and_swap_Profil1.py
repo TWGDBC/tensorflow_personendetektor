@@ -3,6 +3,7 @@
 Created on Tue April  18 09:33:35 2018
 
 Skript to Rotate and Swap defined Data, to create more Datasets
+Profi 1
 Creates data in /input_data/...
 
 
