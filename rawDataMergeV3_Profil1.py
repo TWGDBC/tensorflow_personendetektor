@@ -5,6 +5,7 @@ Created on Mon Apr 23 00:56:16 2018
 
 Skript to merge all defined Data to TRAIN, TEST FILES & LABELS
 creates Dataset in /prepared_data/...  (4 Files with Timestamp)
+Profil1
 
 @author: Daniel Zimmermann 
 """
@@ -27,6 +28,7 @@ trainNbr = pd.DataFrame()
 tstNbr = pd.DataFrame()
 
 ###############################################################################
+#Helpfer functions  
 
 def mergeFilesToTrainSet(filelist,labelNumber):
     
@@ -74,11 +76,23 @@ CSV_COLUMN_NAMES = ['Pixel 0' ,'Pixel 1' ,'Pixel 2' ,'Pixel 3' ,'Pixel 4' ,'Pixe
 filename0_1 = 'input_data/_M1_Bahnhof/m1_leer_2018-03-12_17-57-50.csv'
 filename0_2 = 'input_data/_M4_Aemattli/m4_leer_2018-03-21_18-44-41.csv'
 filename0_3 = 'input_data/_M5_Ennet/m5_leer_2018-03-21_19-15-37.csv'
-filename0_4 = 'input_data/_M1_Bahnhof/m1_leer_2018-03-12_17-57-50_rotate90.csv'
+filename0_4 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52.csv'
+filename0_5 = 'input_data/0p/v1/0p_output_2018-05-16_17-38-14.csv'
+filename0_6 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38.csv'
+filename0_7 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate90.csv'
+filename0_8 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate180.csv'
+filename0_9 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate270.csv'
+filename0_10 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotateswap.csv'
 train_person0_files = [filename0_1, 
                        filename0_2, 
                        filename0_3,
-                       filename0_4]
+                       filename0_4,
+                       filename0_5,
+                       filename0_6,
+                       filename0_7,
+                       filename0_8,
+                       filename0_9,
+                       filename0_10]
 
 ## 1 Person
 filename1_1 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16.csv'

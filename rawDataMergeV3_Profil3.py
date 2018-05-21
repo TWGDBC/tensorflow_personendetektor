@@ -5,6 +5,7 @@ Created on Mon Apr 23 00:56:16 2018
 
 Skript to merge all defined Data to TRAIN, TEST FILES & LABELS
 creates Dataset in /prepared_data/...  (4 Files with Timestamp)
+Profil 3
 
 @author: Daniel Zimmermann 
 """
@@ -27,6 +28,7 @@ trainNbr = pd.DataFrame()
 tstNbr = pd.DataFrame()
 
 ###############################################################################
+#Helpfer functions  
 
 def mergeFilesToTrainSet(filelist,labelNumber):
     
@@ -71,90 +73,52 @@ CSV_COLUMN_NAMES = ['Pixel 0' ,'Pixel 1' ,'Pixel 2' ,'Pixel 3' ,'Pixel 4' ,'Pixe
 'Pixel 57' ,'Pixel 58' ,'Pixel 59' ,'Pixel 60' ,'Pixel 61' ,'Pixel 62' ,'Pixel 63' ,'Thermistor' ,'Timestamp']
 
 ## 0 Person
+## 0 Person
 filename0_1 = 'input_data/_M1_Bahnhof/m1_leer_2018-03-12_17-57-50.csv'
 filename0_2 = 'input_data/_M4_Aemattli/m4_leer_2018-03-21_18-44-41.csv'
 filename0_3 = 'input_data/_M5_Ennet/m5_leer_2018-03-21_19-15-37.csv'
-filename0_4 = 'input_data/_M1_Bahnhof/m1_leer_2018-03-12_17-57-50_rotate90.csv'
+filename0_4 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52.csv'
+filename0_5 = 'input_data/0p/v1/0p_output_2018-05-16_17-38-14.csv'
+filename0_6 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38.csv'
+filename0_7 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate90.csv'
+filename0_8 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate180.csv'
+filename0_9 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotate270.csv'
+filename0_10 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38_rotateswap.csv'
+
 train_person0_files = [filename0_1, 
                        filename0_2, 
                        filename0_3,
-                       filename0_4]
+                       filename0_4,
+                       filename0_5,
+                       filename0_6,
+                       filename0_7,
+                       filename0_8,
+                       filename0_9,
+                       filename0_10]
 
 ## 1 Person
-filename1_1 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16.csv'
-filename1_2 ='input_data/1p/v2/g_b_output_2018-03-28_19-32-40.csv'
-filename1_3 ='input_data/1p/v2/g_d_output_2018-03-28_19-31-22.csv'
-filename1_4 ='input_data/1p/v2/g_e_output_2018-03-28_19-25-38.csv'
-filename1_5 ='input_data/1p/v2/g_g_output_2018-03-28_19-27-11.csv'
-filename1_6 ='input_data/1p/v2/g_i_output_2018-03-28_19-28-44.csv'
-filename1_7 ='input_data/1p/v2/g_j_output_2018-03-28_19-30-02.csv'
-filename1_8 ='input_data/1p/v1/m_a_output_2018-03-28_18-13-28.csv'
-filename1_9 ='input_data/1p/v1/m_b_output_2018-03-28_18-19-22.csv'
-filename1_10 ='input_data/1p/v1/m_d_output_2018-03-28_18-16-57.csv'
-filename1_11 ='input_data/1p/v1/m_e_output_2018-03-28_18-29-26.csv'
-filename1_12 ='input_data/1p/v1/m_g_output_2018-03-28_18-24-14.csv'
-filename1_13 ='input_data/1p/v1/m_i_output_2018-03-28_18-26-04.csv'
-filename1_14 ='input_data/1p/v1/m_j_output_2018-03-28_18-27-48.csv'
+filename1_1 ='input_data/1p/v5/a_output_2018-05-16_17-57-58.csv'
+filename1_2 ='input_data/1p/v5/b_output_2018-05-16_18-00-21.csv'
+filename1_3 ='input_data/1p/v5/d_output_2018-05-16_18-02-02.csv'
+filename1_4 ='input_data/1p/v5/e_output_2018-05-16_18-03-50.csv'
+filename1_5 ='input_data/1p/v5/g_output_2018-05-16_18-05-13.csv'
+filename1_6 ='input_data/1p/v5/i_output_2018-05-16_18-08-49.csv'
+filename1_7 ='input_data/1p/v5/j_output_2018-05-16_18-06-41.csv'
+filename1_8 ='input_data/1p/v6/a_output_2018-05-16_18-52-28.csv'
+filename1_9 ='input_data/1p/v6/b_output_2018-05-16_18-55-12.csv'
+filename1_10 ='input_data/1p/v6/d_output_2018-05-16_18-56-37.csv'
+filename1_11 ='input_data/1p/v6/e_output_2018-05-16_18-57-53.csv'
+filename1_12 ='input_data/1p/v6/g_output_2018-05-16_18-59-13.csv'
+filename1_13 ='input_data/1p/v6/i_output_2018-05-16_19-00-28.csv'
+filename1_14 ='input_data/1p/v6/j_output_2018-05-16_19-01-43.csv'
 ## rotated 90
-filename1_15 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16_rotate90.csv'
-filename1_16 ='input_data/1p/v2/g_b_output_2018-03-28_19-32-40_rotate90.csv'
-filename1_17 ='input_data/1p/v2/g_d_output_2018-03-28_19-31-22_rotate90.csv'
-filename1_18 ='input_data/1p/v2/g_e_output_2018-03-28_19-25-38_rotate90.csv'
-filename1_19 ='input_data/1p/v2/g_g_output_2018-03-28_19-27-11_rotate90.csv'
-filename1_20 ='input_data/1p/v2/g_i_output_2018-03-28_19-28-44_rotate90.csv'
-filename1_21 ='input_data/1p/v2/g_j_output_2018-03-28_19-30-02_rotate90.csv'
-filename1_22 ='input_data/1p/v1/m_a_output_2018-03-28_18-13-28_rotate90.csv'
-filename1_23 ='input_data/1p/v1/m_b_output_2018-03-28_18-19-22_rotate90.csv'
-filename1_24 ='input_data/1p/v1/m_d_output_2018-03-28_18-16-57_rotate90.csv'
-filename1_25 ='input_data/1p/v1/m_e_output_2018-03-28_18-29-26_rotate90.csv'
-filename1_26 ='input_data/1p/v1/m_g_output_2018-03-28_18-24-14_rotate90.csv'
-filename1_27 ='input_data/1p/v1/m_i_output_2018-03-28_18-26-04_rotate90.csv'
-filename1_28 ='input_data/1p/v1/m_j_output_2018-03-28_18-27-48_rotate90.csv'
+
 ##_rotate180
-filename1_29 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16_rotate180.csv'
-filename1_30 ='input_data/1p/v2/g_b_output_2018-03-28_19-32-40_rotate180.csv'
-filename1_31 ='input_data/1p/v2/g_d_output_2018-03-28_19-31-22_rotate180.csv'
-filename1_32 ='input_data/1p/v2/g_e_output_2018-03-28_19-25-38_rotate180.csv'
-filename1_33 ='input_data/1p/v2/g_g_output_2018-03-28_19-27-11_rotate180.csv'
-filename1_34 ='input_data/1p/v2/g_i_output_2018-03-28_19-28-44_rotate180.csv'
-filename1_35 ='input_data/1p/v2/g_j_output_2018-03-28_19-30-02_rotate180.csv'
-filename1_36 ='input_data/1p/v1/m_a_output_2018-03-28_18-13-28_rotate180.csv'
-filename1_37 ='input_data/1p/v1/m_b_output_2018-03-28_18-19-22_rotate180.csv'
-filename1_38 ='input_data/1p/v1/m_d_output_2018-03-28_18-16-57_rotate180.csv'
-filename1_39 ='input_data/1p/v1/m_e_output_2018-03-28_18-29-26_rotate180.csv'
-filename1_40 ='input_data/1p/v1/m_g_output_2018-03-28_18-24-14_rotate180.csv'
-filename1_41 ='input_data/1p/v1/m_i_output_2018-03-28_18-26-04_rotate180.csv'
-filename1_42 ='input_data/1p/v1/m_j_output_2018-03-28_18-27-48_rotate180.csv'
+
 ##rotate 270
-filename1_43 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16_rotate270.csv'
-filename1_44 ='input_data/1p/v2/g_b_output_2018-03-28_19-32-40_rotate270.csv'
-filename1_45 ='input_data/1p/v2/g_d_output_2018-03-28_19-31-22_rotate270.csv'
-filename1_46 ='input_data/1p/v2/g_e_output_2018-03-28_19-25-38_rotate270.csv'
-filename1_47 ='input_data/1p/v2/g_g_output_2018-03-28_19-27-11_rotate270.csv'
-filename1_48 ='input_data/1p/v2/g_i_output_2018-03-28_19-28-44_rotate270.csv'
-filename1_49 ='input_data/1p/v2/g_j_output_2018-03-28_19-30-02_rotate270.csv'
-filename1_50 ='input_data/1p/v1/m_a_output_2018-03-28_18-13-28_rotate270.csv'
-filename1_51 ='input_data/1p/v1/m_b_output_2018-03-28_18-19-22_rotate270.csv'
-filename1_52 ='input_data/1p/v1/m_d_output_2018-03-28_18-16-57_rotate270.csv'
-filename1_53 ='input_data/1p/v1/m_e_output_2018-03-28_18-29-26_rotate270.csv'
-filename1_54 ='input_data/1p/v1/m_g_output_2018-03-28_18-24-14_rotate270.csv'
-filename1_55 ='input_data/1p/v1/m_i_output_2018-03-28_18-26-04_rotate270.csv'
-filename1_56 ='input_data/1p/v1/m_j_output_2018-03-28_18-27-48_rotate270.csv'
+
 ## swap
-filename1_57 ='input_data/1p/v2/g_a_output_2018-03-28_19-24-16_swap.csv'
-filename1_58 ='input_data/1p/v2/g_b_output_2018-03-28_19-32-40_swap.csv'
-filename1_59 ='input_data/1p/v2/g_d_output_2018-03-28_19-31-22_swap.csv'
-filename1_60 ='input_data/1p/v2/g_e_output_2018-03-28_19-25-38_swap.csv'
-filename1_61 ='input_data/1p/v2/g_g_output_2018-03-28_19-27-11_swap.csv'
-filename1_62 ='input_data/1p/v2/g_i_output_2018-03-28_19-28-44_swap.csv'
-filename1_63 ='input_data/1p/v2/g_j_output_2018-03-28_19-30-02_swap.csv'
-filename1_64 ='input_data/1p/v1/m_a_output_2018-03-28_18-13-28_swap.csv'
-filename1_65 ='input_data/1p/v1/m_b_output_2018-03-28_18-19-22_swap.csv'
-filename1_66 ='input_data/1p/v1/m_d_output_2018-03-28_18-16-57_swap.csv'
-filename1_67 ='input_data/1p/v1/m_e_output_2018-03-28_18-29-26_swap.csv'
-filename1_68 ='input_data/1p/v1/m_g_output_2018-03-28_18-24-14_swap.csv'
-filename1_69 ='input_data/1p/v1/m_i_output_2018-03-28_18-26-04_swap.csv'
-filename1_70 ='input_data/1p/v1/m_j_output_2018-03-28_18-27-48_swap.csv'
+
 
 ## Alle Files in Liste anfügen Listenmax 
 train_person1_files = [filename1_1,
@@ -230,90 +194,30 @@ train_person1_files = [filename1_1,
 
 
 ## 2 Persons
-filename2_1 ='input_data/2p/v1/k_a_g_b_output_2018-03-28_18-35-06.csv'
-filename2_2 ='input_data/2p/v1/k_a_g_c_output_2018-03-28_18-32-43.csv'
-filename2_3 ='input_data/2p/v1/k_a_g_i_output_2018-03-28_18-42-08.csv'
-filename2_4 ='input_data/2p/v1/k_d_g_e_output_2018-03-28_18-38-29.csv'
-filename2_5 ='input_data/2p/v1/k_d_g_f_output_2018-03-28_18-36-53.csv'
-filename2_6 ='input_data/2p/v1/k_g_g_c_output_2018-03-28_18-40-21.csv'
-filename2_7 ='input_data/2p/v1/k_j_g_e_output_2018-03-28_18-43-34.csv'
-filename2_8 ='input_data/2p/v1/k_j_g_i_output_2018-03-28_18-45-04.csv'
-filename2_9 ='input_data/2p/v2/a_b_output_2018-03-28_19-36-43.csv'
-filename2_10 ='input_data/2p/v2/a_c_output_2018-03-28_19-35-19.csv'
-filename2_11 ='input_data/2p/v2/a_i_output_2018-03-28_19-42-19.csv'
-filename2_12 ='input_data/2p/v2/d_e_output_2018-03-28_19-39-32.csv'
-filename2_13 ='input_data/2p/v2/d_f_output_2018-03-28_19-38-07.csv'
-filename2_14 ='input_data/2p/v2/g_c_output_2018-03-28_19-40-57.csv'
-filename2_15='input_data/2p/v2/j_e_output_2018-03-28_19-43-38.csv'
-filename2_16='input_data/2p/v2/j_i_output_2018-03-28_19-45-03.csv'
+filename2_1 ='input_data/2p/v5/ab_output_2018-05-16_18-10-25.csv'
+filename2_2 ='input_data/2p/v5/ac_output_2018-05-16_18-12-01.csv'
+filename2_3 ='input_data/2p/v5/ai_output_2018-05-16_18-13-27.csv'
+filename2_4 ='input_data/2p/v5/de_output_2018-05-16_18-14-49.csv'
+filename2_5 ='input_data/2p/v5/df_output_2018-05-16_18-16-21.csv'
+filename2_6 ='input_data/2p/v5/gc_output_2018-05-16_18-17-45.csv'
+filename2_7 ='input_data/2p/v5/je_output_2018-05-16_18-19-15.csv'
+filename2_8 ='input_data/2p/v5/ji_output_2018-05-16_18-20-41.csv'
+filename2_9 ='input_data/2p/v6/ab_output_2018-05-16_18-22-57.csv'
+filename2_10 ='input_data/2p/v6/ac_output_2018-05-16_18-24-27.csv'
+filename2_11 ='input_data/2p/v6/ai_output_2018-05-16_18-25-49.csv'
+filename2_12 ='input_data/2p/v6/de_output_2018-05-16_18-27-14.csv'
+filename2_13 ='input_data/2p/v6/df_output_2018-05-16_18-28-36.csv'
+filename2_14 ='input_data/2p/v6/gc_output_2018-05-16_18-30-04.csv'
+filename2_15='input_data/2p/v6/je_output_2018-05-16_18-31-32.csv'
+filename2_16='input_data/2p/v6/ji_output_2018-05-16_18-32-57.csv'
 ## rotate 90
-filename2_17 ='input_data/2p/v1/k_a_g_b_output_2018-03-28_18-35-06_rotate90.csv'
-filename2_18 ='input_data/2p/v1/k_a_g_c_output_2018-03-28_18-32-43_rotate90.csv'
-filename2_19 ='input_data/2p/v1/k_a_g_i_output_2018-03-28_18-42-08_rotate90.csv'
-filename2_20 ='input_data/2p/v1/k_d_g_e_output_2018-03-28_18-38-29_rotate90.csv'
-filename2_21 ='input_data/2p/v1/k_d_g_f_output_2018-03-28_18-36-53_rotate90.csv'
-filename2_22 ='input_data/2p/v1/k_g_g_c_output_2018-03-28_18-40-21_rotate90.csv'
-filename2_23 ='input_data/2p/v1/k_j_g_e_output_2018-03-28_18-43-34_rotate90.csv'
-filename2_24 ='input_data/2p/v1/k_j_g_i_output_2018-03-28_18-45-04_rotate90.csv'
-filename2_25 ='input_data/2p/v2/a_b_output_2018-03-28_19-36-43_rotate90.csv'
-filename2_26 ='input_data/2p/v2/a_c_output_2018-03-28_19-35-19_rotate90.csv'
-filename2_27 ='input_data/2p/v2/a_i_output_2018-03-28_19-42-19_rotate90.csv'
-filename2_28 ='input_data/2p/v2/d_e_output_2018-03-28_19-39-32_rotate90.csv'
-filename2_29 ='input_data/2p/v2/d_f_output_2018-03-28_19-38-07_rotate90.csv'
-filename2_30 ='input_data/2p/v2/g_c_output_2018-03-28_19-40-57_rotate90.csv'
-filename2_31='input_data/2p/v2/j_e_output_2018-03-28_19-43-38_rotate90.csv'
-filename2_32='input_data/2p/v2/j_i_output_2018-03-28_19-45-03_rotate90.csv'
+
 ## rotate 180
-filename2_33 ='input_data/2p/v1/k_a_g_b_output_2018-03-28_18-35-06_rotate180.csv'
-filename2_34 ='input_data/2p/v1/k_a_g_c_output_2018-03-28_18-32-43_rotate180.csv'
-filename2_35 ='input_data/2p/v1/k_a_g_i_output_2018-03-28_18-42-08_rotate180.csv'
-filename2_36 ='input_data/2p/v1/k_d_g_e_output_2018-03-28_18-38-29_rotate180.csv'
-filename2_37 ='input_data/2p/v1/k_d_g_f_output_2018-03-28_18-36-53_rotate180.csv'
-filename2_38 ='input_data/2p/v1/k_g_g_c_output_2018-03-28_18-40-21_rotate180.csv'
-filename2_39 ='input_data/2p/v1/k_j_g_e_output_2018-03-28_18-43-34_rotate180.csv'
-filename2_40 ='input_data/2p/v1/k_j_g_i_output_2018-03-28_18-45-04_rotate180.csv'
-filename2_41 ='input_data/2p/v2/a_b_output_2018-03-28_19-36-43_rotate180.csv'
-filename2_42 ='input_data/2p/v2/a_c_output_2018-03-28_19-35-19_rotate180.csv'
-filename2_43 ='input_data/2p/v2/a_i_output_2018-03-28_19-42-19_rotate180.csv'
-filename2_44='input_data/2p/v2/d_e_output_2018-03-28_19-39-32_rotate180.csv'
-filename2_45 ='input_data/2p/v2/d_f_output_2018-03-28_19-38-07_rotate180.csv'
-filename2_46 ='input_data/2p/v2/g_c_output_2018-03-28_19-40-57_rotate180.csv'
-filename2_47='input_data/2p/v2/j_e_output_2018-03-28_19-43-38_rotate180.csv'
-filename2_48='input_data/2p/v2/j_i_output_2018-03-28_19-45-03_rotate180.csv'
+
 ## rotate 270
-filename2_49 ='input_data/2p/v1/k_a_g_b_output_2018-03-28_18-35-06_rotate270.csv'
-filename2_50 ='input_data/2p/v1/k_a_g_c_output_2018-03-28_18-32-43_rotate270.csv'
-filename2_51 ='input_data/2p/v1/k_a_g_i_output_2018-03-28_18-42-08_rotate270.csv'
-filename2_52 ='input_data/2p/v1/k_d_g_e_output_2018-03-28_18-38-29_rotate270.csv'
-filename2_53 ='input_data/2p/v1/k_d_g_f_output_2018-03-28_18-36-53_rotate270.csv'
-filename2_54 ='input_data/2p/v1/k_g_g_c_output_2018-03-28_18-40-21_rotate270.csv'
-filename2_55 ='input_data/2p/v1/k_j_g_e_output_2018-03-28_18-43-34_rotate270.csv'
-filename2_56 ='input_data/2p/v1/k_j_g_i_output_2018-03-28_18-45-04_rotate270.csv'
-filename2_57 ='input_data/2p/v2/a_b_output_2018-03-28_19-36-43_rotate270.csv'
-filename2_58 ='input_data/2p/v2/a_c_output_2018-03-28_19-35-19_rotate270.csv'
-filename2_59 ='input_data/2p/v2/a_i_output_2018-03-28_19-42-19_rotate270.csv'
-filename2_60 ='input_data/2p/v2/d_e_output_2018-03-28_19-39-32_rotate270.csv'
-filename2_61 ='input_data/2p/v2/d_f_output_2018-03-28_19-38-07_rotate270.csv'
-filename2_62 ='input_data/2p/v2/g_c_output_2018-03-28_19-40-57_rotate270.csv'
-filename2_63 ='input_data/2p/v2/j_e_output_2018-03-28_19-43-38_rotate270.csv'
-filename2_64 ='input_data/2p/v2/j_i_output_2018-03-28_19-45-03_rotate270.csv'
+
 ## swap
-filename2_65 ='input_data/2p/v1/k_a_g_b_output_2018-03-28_18-35-06_swap.csv'
-filename2_66='input_data/2p/v1/k_a_g_c_output_2018-03-28_18-32-43_swap.csv'
-filename2_67 ='input_data/2p/v1/k_a_g_i_output_2018-03-28_18-42-08_swap.csv'
-filename2_68 ='input_data/2p/v1/k_d_g_e_output_2018-03-28_18-38-29_swap.csv'
-filename2_69 ='input_data/2p/v1/k_d_g_f_output_2018-03-28_18-36-53_swap.csv'
-filename2_70 ='input_data/2p/v1/k_g_g_c_output_2018-03-28_18-40-21_swap.csv'
-filename2_71 ='input_data/2p/v1/k_j_g_e_output_2018-03-28_18-43-34_swap.csv'
-filename2_72 ='input_data/2p/v1/k_j_g_i_output_2018-03-28_18-45-04_swap.csv'
-filename2_73 ='input_data/2p/v2/a_b_output_2018-03-28_19-36-43_swap.csv'
-filename2_74 ='input_data/2p/v2/a_c_output_2018-03-28_19-35-19_swap.csv'
-filename2_75 ='input_data/2p/v2/a_i_output_2018-03-28_19-42-19_swap.csv'
-filename2_76 ='input_data/2p/v2/d_e_output_2018-03-28_19-39-32_swap.csv'
-filename2_77 ='input_data/2p/v2/d_f_output_2018-03-28_19-38-07_swap.csv'
-filename2_78 ='input_data/2p/v2/g_c_output_2018-03-28_19-40-57_swap.csv'
-filename2_79='input_data/2p/v2/j_e_output_2018-03-28_19-43-38_swap.csv'
-filename2_80='input_data/2p/v2/j_i_output_2018-03-28_19-45-03_swap.csv'
+
 
 train_person2_files = [filename2_1,
                        filename2_2,
@@ -398,50 +302,22 @@ train_person2_files = [filename2_1,
     
 
 ## 3 Persons
-filename3_1 ='input_data/3p/v1/k_a_m_b_k_c_output_2018-03-28_18-47-19.csv'
-filename3_2 ='input_data/3p/v1/k_a_m_e_k_i_output_2018-03-28_18-52-43.csv'
-filename3_3 ='input_data/3p/v1/k_d_m_e_k_f_output_2018-03-28_18-49-21.csv'
-filename3_4 ='input_data/3p/v1/k_g_m_e_k_i_output_2018-03-28_18-54-39.csv'
-filename3_5 ='input_data/3p/v1/k_a_g_e_k_i_output_2018-03-28_19-18-52.csv'
-filename3_6 ='input_data/3p/v1/k_j_m_h_k_l_output_2018-03-28_18-56-51.csv'
-filename3_7 ='input_data/3p/v1/k_g_m_k_k_i_output_2018-03-28_18-58-23.csv'
-filename3_8 ='input_data/3p/v1/k_h_g_d_k_loutput_2018-03-28_19-20-56.csv'
+filename3_1 ='input_data/3p/v3/abc_output_2018-05-16_19-04-34.csv'
+filename3_2 ='input_data/3p/v3/aei_output_2018-05-16_19-14-42.csv'
+filename3_3 ='input_data/3p/v3/def_output_2018-05-16_19-11-32.csv'
+filename3_4 ='input_data/3p/v3/dhl_output_2018-05-16_19-18-00.csv'
+filename3_5 ='input_data/3p/v3/gei_output_2018-05-16_19-16-05.csv'
+filename3_6 ='input_data/3p/v3/gki_output_2018-05-16_19-19-22.csv'
+filename3_7 ='input_data/3p/v3/hdc_output_2018-05-16_19-22-34.csv'
+filename3_8 ='input_data/3p/v3/iea_output_2018-05-16_19-21-08.csv'
 ## rotate 90
-filename3_9 ='input_data/3p/v1/k_a_m_b_k_c_output_2018-03-28_18-47-19_rotate90.csv'
-filename3_10 ='input_data/3p/v1/k_a_m_e_k_i_output_2018-03-28_18-52-43_rotate90.csv'
-filename3_11 ='input_data/3p/v1/k_d_m_e_k_f_output_2018-03-28_18-49-21_rotate90.csv'
-filename3_12 ='input_data/3p/v1/k_g_m_e_k_i_output_2018-03-28_18-54-39_rotate90.csv'
-filename3_13 ='input_data/3p/v1/k_a_g_e_k_i_output_2018-03-28_19-18-52_rotate90.csv'
-filename3_14 ='input_data/3p/v1/k_j_m_h_k_l_output_2018-03-28_18-56-51_rotate90.csv'
-filename3_15 ='input_data/3p/v1/k_g_m_k_k_i_output_2018-03-28_18-58-23_rotate90.csv'
-filename3_16 ='input_data/3p/v1/k_h_g_d_k_loutput_2018-03-28_19-20-56_rotate90.csv'
+
 ## rotate 180
-filename3_17 ='input_data/3p/v1/k_a_m_b_k_c_output_2018-03-28_18-47-19_rotate180.csv'
-filename3_18 ='input_data/3p/v1/k_a_m_e_k_i_output_2018-03-28_18-52-43_rotate180.csv'
-filename3_19 ='input_data/3p/v1/k_d_m_e_k_f_output_2018-03-28_18-49-21_rotate180.csv'
-filename3_20 ='input_data/3p/v1/k_g_m_e_k_i_output_2018-03-28_18-54-39_rotate180.csv'
-filename3_21 ='input_data/3p/v1/k_a_g_e_k_i_output_2018-03-28_19-18-52_rotate180.csv'
-filename3_22 ='input_data/3p/v1/k_j_m_h_k_l_output_2018-03-28_18-56-51_rotate180.csv'
-filename3_23 ='input_data/3p/v1/k_g_m_k_k_i_output_2018-03-28_18-58-23_rotate180.csv'
-filename3_24 ='input_data/3p/v1/k_h_g_d_k_loutput_2018-03-28_19-20-56_rotate180.csv'
+
 ## rotate 270
-filename3_25 ='input_data/3p/v1/k_a_m_b_k_c_output_2018-03-28_18-47-19_rotate270.csv'
-filename3_26 ='input_data/3p/v1/k_a_m_e_k_i_output_2018-03-28_18-52-43_rotate270.csv'
-filename3_27 ='input_data/3p/v1/k_d_m_e_k_f_output_2018-03-28_18-49-21_rotate270.csv'
-filename3_28 ='input_data/3p/v1/k_g_m_e_k_i_output_2018-03-28_18-54-39_rotate270.csv'
-filename3_29 ='input_data/3p/v1/k_a_g_e_k_i_output_2018-03-28_19-18-52_rotate270.csv'
-filename3_30 ='input_data/3p/v1/k_j_m_h_k_l_output_2018-03-28_18-56-51_rotate270.csv'
-filename3_31 ='input_data/3p/v1/k_g_m_k_k_i_output_2018-03-28_18-58-23_rotate270.csv'
-filename3_32 ='input_data/3p/v1/k_h_g_d_k_loutput_2018-03-28_19-20-56_rotate270.csv'
+
 ## swap
-filename3_33 ='input_data/3p/v1/k_a_m_b_k_c_output_2018-03-28_18-47-19_swap.csv'
-filename3_34 ='input_data/3p/v1/k_a_m_e_k_i_output_2018-03-28_18-52-43_swap.csv'
-filename3_35 ='input_data/3p/v1/k_d_m_e_k_f_output_2018-03-28_18-49-21_swap.csv'
-filename3_36 ='input_data/3p/v1/k_g_m_e_k_i_output_2018-03-28_18-54-39_swap.csv'
-filename3_37 ='input_data/3p/v1/k_a_g_e_k_i_output_2018-03-28_19-18-52_swap.csv'
-filename3_38 ='input_data/3p/v1/k_j_m_h_k_l_output_2018-03-28_18-56-51_swap.csv'
-filename3_39 ='input_data/3p/v1/k_g_m_k_k_i_output_2018-03-28_18-58-23_swap.csv'
-filename3_40 ='input_data/3p/v1/k_h_g_d_k_loutput_2018-03-28_19-20-56_swap.csv'
+
 
 train_person3_files = [filename3_1,
                        filename3_2,
@@ -486,40 +362,20 @@ train_person3_files = [filename3_1,
 
 
 ## 4 Personen
-filename4_1 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-02-54.csv'
-filename4_2 ='input_data/4p/v1/p4_gjcf_output_2018-03-28_19-09-47.csv'
-filename4_3 ='input_data/4p/v1/p4_acjl_output_2018-03-28_19-00-55.csv'
-filename4_4 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-04-29.csv'
-filename4_5 ='input_data/4p/v1/p4_dfgi_output_2018-03-28_19-06-25.csv'
-filename4_6 ='input_data/4p/v1/p4_adgj_output_2018-03-28_19-08-05.csv'
+filename4_1 ='input_data/4p/v3/p4_acdf_output_2018-05-16_19-26-26.csv'
+filename4_2 ='input_data/4p/v3/p4_acjl_output_2018-05-16_19-24-42.csv'
+filename4_3 ='input_data/4p/v3/p4_adgj_output_2018-05-16_19-29-38.csv'
+filename4_4 ='input_data/4p/v3/p4_dfac_output_2018-05-16_19-32-52.csv'
+filename4_5 ='input_data/4p/v3/p4_dfgi_output_2018-05-16_19-27-54.csv'
+filename4_6 ='input_data/4p/v3/p4_gjcf_output_2018-05-16_19-31-12.csv'
+## rotate 90
 
-filename4_7 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-02-54_rotate90.csv'
-filename4_8 ='input_data/4p/v1/p4_gjcf_output_2018-03-28_19-09-47_rotate90.csv'
-filename4_9 ='input_data/4p/v1/p4_acjl_output_2018-03-28_19-00-55_rotate90.csv'
-filename4_10 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-04-29_rotate90.csv'
-filename4_11 ='input_data/4p/v1/p4_dfgi_output_2018-03-28_19-06-25_rotate90.csv'
-filename4_12 ='input_data/4p/v1/p4_adgj_output_2018-03-28_19-08-05_rotate90.csv'
+## rotate 180
 
-filename4_13 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-02-54_rotate180.csv'
-filename4_14 ='input_data/4p/v1/p4_gjcf_output_2018-03-28_19-09-47_rotate180.csv'
-filename4_15 ='input_data/4p/v1/p4_acjl_output_2018-03-28_19-00-55_rotate180.csv'
-filename4_16 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-04-29_rotate180.csv'
-filename4_17 ='input_data/4p/v1/p4_dfgi_output_2018-03-28_19-06-25_rotate180.csv'
-filename4_18 ='input_data/4p/v1/p4_adgj_output_2018-03-28_19-08-05_rotate180.csv'
+## rotate 270
 
-filename4_19 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-02-54_rotate270.csv'
-filename4_20 ='input_data/4p/v1/p4_gjcf_output_2018-03-28_19-09-47_rotate270.csv'
-filename4_21 ='input_data/4p/v1/p4_acjl_output_2018-03-28_19-00-55_rotate270.csv'
-filename4_22 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-04-29_rotate270.csv'
-filename4_23 ='input_data/4p/v1/p4_dfgi_output_2018-03-28_19-06-25_rotate270.csv'
-filename4_24 ='input_data/4p/v1/p4_adgj_output_2018-03-28_19-08-05_rotate270.csv'
+## swap
 
-filename4_25 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-02-54_swap.csv'
-filename4_26 ='input_data/4p/v1/p4_gjcf_output_2018-03-28_19-09-47_swap.csv'
-filename4_27 ='input_data/4p/v1/p4_acjl_output_2018-03-28_19-00-55_swap.csv'
-filename4_28 ='input_data/4p/v1/p4_acdf_output_2018-03-28_19-04-29_swap.csv'
-filename4_29 ='input_data/4p/v1/p4_dfgi_output_2018-03-28_19-06-25_swap.csv'
-filename4_30 ='input_data/4p/v1/p4_adgj_output_2018-03-28_19-08-05_swap.csv'
 
 train_person4_files = [filename4_1,
                        filename4_2,
