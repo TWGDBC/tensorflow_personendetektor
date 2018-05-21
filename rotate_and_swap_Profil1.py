@@ -72,7 +72,12 @@ def rotate90fkt(filelist):
                         encoding='utf-8',
                         index=False)
 
-## 
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is rotated 180 degree
+param:  filelist, list of strings, which gives paths to the rotateable CSV-File
+return: -
+
+""" 
 def rotate180fkt(filelist): 
    for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
@@ -90,12 +95,19 @@ def rotate180fkt(filelist):
                         sep=',',
                         encoding='utf-8',
                         index=False)
-          
+ 
+
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is rotated 270 degree
+param:  filelist, list of strings, which gives paths to the rotateable CSV-File
+return: -
+
+"""          
 def rotate270fkt(filelist):  
    for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
-          Data180 = pd.DataFrame()
-          Data180 = data[['Pixel 56' ,'Pixel 48' ,'Pixel 40' ,'Pixel 32' ,'Pixel 24' ,'Pixel 16' ,'Pixel 8' ,'Pixel 0',
+          Data270 = pd.DataFrame()
+          Data270 = data[['Pixel 56' ,'Pixel 48' ,'Pixel 40' ,'Pixel 32' ,'Pixel 24' ,'Pixel 16' ,'Pixel 8' ,'Pixel 0',
                          'Pixel 57' ,'Pixel 49' ,'Pixel 41' ,'Pixel 33' ,'Pixel 25' ,'Pixel 17' ,'Pixel 9' ,'Pixel 1',
                          'Pixel 58' ,'Pixel 50' ,'Pixel 42' ,'Pixel 34' ,'Pixel 26' ,'Pixel 18' ,'Pixel 10' ,'Pixel 2',
                          'Pixel 59' ,'Pixel 51' ,'Pixel 43' ,'Pixel 35' ,'Pixel 27' ,'Pixel 19' ,'Pixel 11' ,'Pixel 3',
@@ -104,7 +116,7 @@ def rotate270fkt(filelist):
                          'Pixel 62' ,'Pixel 54' ,'Pixel 46' ,'Pixel 38' ,'Pixel 30' ,'Pixel 22' ,'Pixel 14' ,'Pixel 6',
                          'Pixel 63' ,'Pixel 55' ,'Pixel 47' ,'Pixel 39' ,'Pixel 31' ,'Pixel 23' ,'Pixel 15' ,'Pixel 7',
                          'Thermistor' ,'Timestamp']]
-          Data180.to_csv(value[:-4]+'_rotate270.csv',
+          Data270.to_csv(value[:-4]+'_rotate270.csv',
                         sep=',',
                         encoding='utf-8',
                         index=False)

@@ -95,11 +95,18 @@ def rotate180fkt(filelist):
                         sep=',',
                         encoding='utf-8',
                         index=False)
+
+"""
+swapfkt:    Changes the CSV File columns, that the 8x8 Pixel Matrix is rotated 270 degree
+param:  filelist, list of strings, which gives paths to the rotateable CSV-File
+return: -
+
+"""           
 def rotate270fkt(filelist):  
    for value in filelist: 
           data = pd.read_csv(value, names=CSV_COLUMN_NAMES, header=1)
-          Data180 = pd.DataFrame()
-          Data180 = data[['Pixel 56' ,'Pixel 48' ,'Pixel 40' ,'Pixel 32' ,'Pixel 24' ,'Pixel 16' ,'Pixel 8' ,'Pixel 0',
+          Data270 = pd.DataFrame()
+          Data270 = data[['Pixel 56' ,'Pixel 48' ,'Pixel 40' ,'Pixel 32' ,'Pixel 24' ,'Pixel 16' ,'Pixel 8' ,'Pixel 0',
                          'Pixel 57' ,'Pixel 49' ,'Pixel 41' ,'Pixel 33' ,'Pixel 25' ,'Pixel 17' ,'Pixel 9' ,'Pixel 1',
                          'Pixel 58' ,'Pixel 50' ,'Pixel 42' ,'Pixel 34' ,'Pixel 26' ,'Pixel 18' ,'Pixel 10' ,'Pixel 2',
                          'Pixel 59' ,'Pixel 51' ,'Pixel 43' ,'Pixel 35' ,'Pixel 27' ,'Pixel 19' ,'Pixel 11' ,'Pixel 3',
@@ -108,7 +115,7 @@ def rotate270fkt(filelist):
                          'Pixel 62' ,'Pixel 54' ,'Pixel 46' ,'Pixel 38' ,'Pixel 30' ,'Pixel 22' ,'Pixel 14' ,'Pixel 6',
                          'Pixel 63' ,'Pixel 55' ,'Pixel 47' ,'Pixel 39' ,'Pixel 31' ,'Pixel 23' ,'Pixel 15' ,'Pixel 7',
                          'Thermistor' ,'Timestamp']]
-          Data180.to_csv(value[:-4]+'_rotate270.csv',
+          Data270.to_csv(value[:-4]+'_rotate270.csv',
                         sep=',',
                         encoding='utf-8',
                         index=False)
@@ -128,9 +135,15 @@ CSV_COLUMN_NAMES = ['Pixel 0' ,'Pixel 1' ,'Pixel 2' ,'Pixel 3' ,'Pixel 4' ,'Pixe
 filename0_1 = 'input_data/_M1_Bahnhof/m1_leer_2018-03-12_17-57-50.csv'
 filename0_2 = 'input_data/_M4_Aemattli/m4_leer_2018-03-21_18-44-41.csv'
 filename0_3 = 'input_data/_M5_Ennet/m5_leer_2018-03-21_19-15-37.csv'
+filename0_4 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52.csv'
+filename0_5 = 'input_data/0p/v1/0p_output_2018-05-16_17-38-14.csv'
+filename0_6 = 'input_data/0p/v1/0p_output_2018-05-16_17-43-38.csv'
 train_person0_files = [filename0_1, 
                        filename0_2, 
-                       filename0_3]
+                       filename0_3,
+                       filename0_4,
+                       filename0_5,
+                       filename0_6]
 
 ## 1 Person
 filename1_1 ='input_data/1p/v3/a_output_2018-05-09_18-19-07.csv'
