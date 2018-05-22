@@ -161,6 +161,7 @@ filename1_11 ='input_data/1p/v1/m_e_output_2018-03-28_18-29-26.csv'
 filename1_12 ='input_data/1p/v1/m_g_output_2018-03-28_18-24-14.csv'
 filename1_13 ='input_data/1p/v1/m_i_output_2018-03-28_18-26-04.csv'
 filename1_14 ='input_data/1p/v1/m_j_output_2018-03-28_18-27-48.csv'
+
 train_person1_files = [filename1_1, 
                        filename1_2, 
                        filename1_3, 
@@ -193,6 +194,8 @@ filename2_13 ='input_data/2p/v2/d_f_output_2018-03-28_19-38-07.csv'
 filename2_14 ='input_data/2p/v2/g_c_output_2018-03-28_19-40-57.csv'
 filename2_15='input_data/2p/v2/j_e_output_2018-03-28_19-43-38.csv'
 filename2_16='input_data/2p/v2/j_i_output_2018-03-28_19-45-03.csv'
+# testfile
+filename2_17 ='input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-49-54.csv'
 train_person2_files = [filename2_1,
                        filename2_2,
                        filename2_3,
@@ -208,7 +211,8 @@ train_person2_files = [filename2_1,
                        filename2_13, 
                        filename2_14, 
                        filename2_15,
-                       filename2_16]
+                       filename2_16,
+                       filename2_17]
 
 ## 3 Persons
 filename3_1 ='input_data/3p/v1/k_a_m_b_k_c_output_2018-03-28_18-47-19.csv'

@@ -2,6 +2,8 @@
 """
 Created on Mon Apr 23 00:56:16 2018
 
+This doc is for the Dataset class for generation and using in CNN
+read_data_sets defines the Dataset Profil which is uncommented
 @author: User
 """
 # pyhton 2.7 ability
@@ -9,10 +11,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 # Import classes and functions
-import tensorflow as tf
-from tensorflow.python.framework import dtypes
 import numpy as np
 import pandas as pd
+
+##############################################################################
 
 
 CSV_COLUMN_NAMES = ['Pixel 0' ,'Pixel 1' ,'Pixel 2' ,'Pixel 3' ,'Pixel 4' ,'Pixel 5' ,'Pixel 6' ,'Pixel 7' ,'Pixel 8' ,
@@ -119,27 +121,29 @@ def read_data_sets(train_dir,
                    reshape=True,
                    shuffle=False,
                    validation_size=20000):
-    #TEST_IMAGES = 'testImages_2018-04-30_14-51-14.csv'      # Profil 0
-    #TEST_IMAGES = 'testImages_2018-05-08_15-01-33.csv'      # Profil 1
-    #TEST_IMAGES = 'testImages_2018-05-11_16-59-49.csv'      # Profil 2
 
-    
-    #TEST_LABELS = 'testLabels_2018-04-30_14-51-17.csv'     # Profil 0
-    #TEST_LABELS = 'testLabels_2018-05-08_15-01-48.csv'     # Profil 1
-    #TEST_LABELS = 'testLabels_2018-05-11_16-59-55.csv'      # Profil 2
 
-    #TRAIN_IMAGES ='trainImages_2018-04-30_14-51-15.csv'    # Profil 0
+#############
+# uncomment to use the correct Profil
     
-    TEST_IMAGES ='Profil1E_trainImages_2018-05-11_09-15-17.csv'    # Profil 1 erweitert
-    #TRAIN_IMAGES ='Profil2_trainImages_2018-05-11_16-59-51.csv'    # Profil 2 original
-    TRAIN_IMAGES = 'Profil2E_trainImages_2018-05-12_08-26-45.csv'    # Profi 2 erweitert
-    
-   
-    #TRAIN_LABELS ='trainLabels_2018-04-30_14-51-17.csv'    # Profil 0 
-    
-    TEST_LABELS ='Profil1E_trainLabels_2018-05-11_09-15-30.csv'    # Profil 1 erweitert
-    #TRAIN_LABELS ='trainLabels_2018-05-11_16-59-55.csv'    # Profil 2 original
-    TRAIN_LABELS ='Profil2E_trainLabels_2018-05-12_08-27-00.csv'    #Profil 2 erweitert
+    TRAIN_IMAGES = 'Profil1E_trainImages_2018-05-22_10-14-10.csv'    # Profil 1
+    #TRAIN_IMAGES = 'Profil2E_trainImages_2018-05-22_10-16-01.csv'    # Profil 2 
+    #TRAIN_IMAGES = 'Profil3E_trainImages_2018-05-22_10-16-40.csv'    # Profil 3
+
+    TRAIN_LABELS ='Profil1E_trainLabels_2018-05-22_10-14-22.csv'    # Profil 1
+    #TRAIN_LABELS ='Profil2E_trainLabels_2018-05-22_10-16-15.csv'    # Profil 2
+    #TRAIN_LABELS ='Profil3E_trainLabels_2018-05-22_10-17-01.csv'    # Profil 3
+
+    #TEST_IMAGES  = 'TEST_testImages_2018-05-22_10-58-23.csv' # Test Profil
+    #TEST_IMAGES = 'Profil1E_trainImages_2018-05-22_10-14-10.csv'    # Profil 1
+    #TEST_IMAGES = 'Profil2E_trainImages_2018-05-22_10-16-01.csv'    # Profil 2 
+    TEST_IMAGES = 'Profil3E_trainImages_2018-05-22_10-16-40.csv'    # Profil 3
+             
+    #TEST_LABELS  ='TEST_testLabels_2018-05-22_10-58-23.csv'  #Test Profil
+    #TEST_LABELS ='Profil1E_trainLabels_2018-05-22_10-14-22.csv'    # Profil 1
+    #TEST_LABELS ='Profil2E_trainLabels_2018-05-22_10-16-15.csv'    # Profil 2
+    TEST_LABELS ='Profil3E_trainLabels_2018-05-22_10-17-01.csv'    # Profil 3    
+
     
 
     

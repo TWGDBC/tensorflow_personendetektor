@@ -14,7 +14,6 @@ import tensorflow as tf
 import numpy as np
 from datetime import timedelta
 from sklearn.metrics import confusion_matrix
-from os.path import dirname
 import datetime
 import matplotlib.pyplot as plt
 import math
@@ -23,23 +22,48 @@ import input_data
 
 print(tf.__version__)
 
-# Variables
-
-# lerning rate
+# ATTENTITON Projectpath must be declared
+projectpath = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/'
+# to restore an created model use this line and uncomment
+restore_path = projectpath+'model_2018-05-22_16-06-23.ckpt'
+showRestore = True;
+showOptimize = False;
+###############################################################################
+# changeable Variables
+###############################################################################
+# defines if the dataset should be shuffled first
+shuffle = True
+# learning rate
 learning_rate = 0.001
-# Counter for total number of iterations performed so far.
-total_iterations = 0
 # number of iterations
-num_iterations = 10000 # 10000
+num_iterations = 10000
 # batch sizes
-#
-validation_size = 15000
-train_batch_size = 500 # 1000
-test_batch_size = 500 # 1000
-batch_size = 500 #1000
-
+validation_size = 25000
+train_batch_size = 1000 # batch size is ~1% of the training size
+test_batch_size = 200   # batch size is ~1 % of the test size
 # Stop optimization if no improvement found in this many iterations.
 require_improvement = 1000
+###############################################################################
+# Convolutional Layer 1.
+filter_size1 = 6      # Convolution filters are 5 x 5 pixels.
+num_filters1 = 16     # There are 16 of these filters.
+# Convolutional Layer 2.
+filter_size2 = 3      # Convolution filters are 3 x 3 pixels.
+num_filters2 = 16     # There are 36 of these filters.
+# Convolutional Layer 3.
+filter_size3 = 3      # Convolution filters are 3 x 3 pixels.
+num_filters3 = 16     # There are 36 of these filters.
+# Convolutional Layer 3.
+filter_size3 = 3      # Convolution filters are 3 x 3 pixels.
+num_filters3 = 16     # There are 36 of these filters.
+# Convolutional Layer 4.
+filter_size4 = 3      # Convolution filters are 3 x 3 pixels.
+num_filters4 = 16     # There are 36 of these filters.
+#fully-connected layer size --> fc_size klein halten, Exponential features
+fc_size = 96
+###############################################################################
+# Helper Variables
+###############################################################################
 # We know that the images are 8 pixels in each dimension.
 img_size = 8
 # Images are stored in one-dimensional arrays of the length 64.
@@ -50,58 +74,20 @@ img_shape = (img_size, img_size)
 cnt_channels = 1
 # Number of classes, one class for the amount of person [0,1,2,3,4]
 cnt_classes = 5
-# Convolutional Layer 1. 0.9934, 0.9964
-filter_size1 = 3    #5      # Convolution filters are 5 x 5 pixels.
-num_filters1 = 16    #32   # There are 16 of these filters.
-# Convolutional Layer 2.
-filter_size2 = 3   #4       # Convolution filters are 3 x 3 pixels.
-num_filters2 = 24    #16    # There are 36 of these filters.
-
-filter_size3 = 3   #2       # Convolution filters are 3 x 3 pixels.
-num_filters3 = 32    #8   # There are 36 of these filters.
-#fully-connected layer size --> fc_size klein halten, Exponential features
-fc_size = 96 # 128
-    
 # Best validation accuracy seen so far.# Best v 
 best_validation_accuracy = 0.0
-
 # Iteration-number for last improvement to validation accuracy.
 last_improvement = 0
-
-
+# Counter for total number of iterations performed so far.
+total_iterations = 0
+# batch size to lower RAM consum
+batch_size = 500  
 
 # creates Tensoflow objects for, return the weights
-
 def init_variables():
     session.run(tf.global_variables_initializer())
     
-def plot_images(images, cls_true, cls_pred=None):
-    assert len(images) == len(cls_true) == 5
-    
-    # Create figure with 3x3 sub-plots.
-    fig, axes = plt.subplots(3, 3)
-    fig.subplots_adjust(hspace=0.3, wspace=0.3)
-
-    for i, ax in enumerate(axes.flat):
-        # Plot image.
-        ax.imshow(images[i].reshape(img_shape), cmap='binary')
-
-        # Show true and predicted classes.
-        if cls_pred is None:
-            xlabel = "True: {0}".format(cls_true[i])
-        else:
-            xlabel = "True: {0}, Pred: {1}".format(cls_true[i], cls_pred[i])
-
-        # Show the classes as the label on the x-axis.
-        ax.set_xlabel(xlabel)
-        
-        # Remove ticks from the plot.
-        ax.set_xticks([])
-        ax.set_yticks([])
-    # Ensure the plot is shown correctly with multiple plots
-    # in a single Notebook cell.
-    plt.show()
-    
+ 
 def plot_confusion_matrix(cls_pred):
     # This is called from print_test_accuracy() below.
     # cls_pred is an array of the predicted class-number for
@@ -128,6 +114,8 @@ def plot_confusion_matrix(cls_pred):
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
     plt.show() 
+
+# plots teh conv_weights of the     
 def plot_conv_weights(weights, input_channel=0):
 
     # Retrieve the values of the weight-variables from TensorFlow.
@@ -194,7 +182,7 @@ def optimize(num_iterations):
         # Get a batch of training examples.
         # cnt_batch now holds a batch of images and
         # cnt_true_batch are the true labels for those images.
-        cnt_batch, cnt_true_batch = train.next_batch(train_batch_size, shuffle = False)
+        cnt_batch, cnt_true_batch = train.next_batch(train_batch_size, shuffle = shuffle)
 
         # Put the batch into a dict with the proper names
         # for placeholder variables in the TensorFlow graph.
@@ -256,8 +244,7 @@ def optimize(num_iterations):
     # Print the time-usage.
     print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 
-def print_test_accuracy(show_example_errors=False,
-                        show_confusion_matrix=True):
+def print_test_accuracy(show_confusion_matrix=True):
 
     # Number of images in the test-set.
     num_test = len(test.images)
@@ -302,9 +289,6 @@ def print_test_accuracy(show_example_errors=False,
     msg = "Accuracy on Test-Set: {0:.1%} ({1} / {2})"
     print(msg.format(acc, correct_sum, num_test))
     # Plot some examples of mis-classifications, if desired.
-    if show_example_errors:
-        print("Example errors:")
-       # plot_example_errors(cls_pred=cls_pred, correct=correct)
     if show_confusion_matrix:
         print("Confusion Matrix:")
         plot_confusion_matrix(cls_pred=cls_pred)
@@ -411,25 +395,25 @@ pixel_input = Pixel_image
 # conv layer 1
 conv1 = tf.layers.conv2d(inputs=pixel_input, name='layer_conv1', padding='same',
                        filters=num_filters1, kernel_size=filter_size1, activation=tf.nn.relu)
-pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=2, strides=1)
+#pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=2, strides=1)
 ###############################################################################
 # conv layer 2
-conv2 = tf.layers.conv2d(inputs=pool1, name='layer_conv2', padding='same',
-                       filters=num_filters2, kernel_size=filter_size2, strides = 2, activation=tf.nn.relu)
+conv2 = tf.layers.conv2d(inputs=conv1, name='layer_conv2', padding='same',
+                       filters=num_filters2, kernel_size=filter_size2, activation=tf.nn.relu)
 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=2, strides=1)
 ###############################################################################
-## Eventuell nötig
+## conv layer 3
 conv3 = tf.layers.conv2d(inputs=pool2, name='layer_conv3', padding='same',
                        filters=num_filters3, kernel_size=filter_size3, activation=tf.nn.relu)
 pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=2, strides=1)
 ###############################################################################
-## Eventuell nötig
-#conv4 = tf.layers.conv2d(inputs=pool2, name='layer_conv3', padding='same',
-#                       filters=num_filters3, kernel_size=filter_size3, activation=tf.nn.relu)
-#pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=2, strides=1)
+## conv layer 4
+conv4 = tf.layers.conv2d(inputs=pool3, name='layer_conv4', padding='same',
+                       filters=num_filters4, kernel_size=filter_size4, activation=tf.nn.relu)
+pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=2, strides=1)
 ###############################################################################
 # flatten layer
-flatten = tf.layers.flatten(pool3)
+flatten = tf.layers.flatten(pool4)
 # Fully connected layer
 fc1 = tf.layers.dense(inputs=flatten, name='layer_fc1',
                       units=fc_size, activation=tf.nn.relu)
@@ -460,9 +444,9 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name = 'accur
 
 # needed for Save and Restore evaluated Model params
 saver = tf.train.Saver(max_to_keep= 200)
-save_path = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/model_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.ckpt'
-#restore_path = 'C:/Users/User/switchdrive/HSLU_6_Semester\BAT/projects/Tensorflow/tmp/model_2018-05-12_10-48-23.ckpt'
-restore_path = 'C:/Users/User/switchdrive/HSLU_6_Semester\BAT/projects/Tensorflow/tmp/model_2018-05-14_09-49-38.ckpt'
+save_path = projectpath+'model_'+str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+'.ckpt'
+
+
 # graphical 
 #writer = tf.summary.FileWriter('./graphs', tf.get_default_graph())
 
@@ -477,13 +461,15 @@ session = tf.Session()
 writer = tf.summary.FileWriter('./graphs', session.graph)
 
 init_variables()
-print_test_accuracy()
-#optimize(num_iterations=num_iterations) # We performed 1000 iterations above.
 
-#print_test_accuracy(False,True)
+if showOptimize:
+    
+    optimize(num_iterations=num_iterations) # We performed 1000 iterations above.
+    print_test_accuracy(True)
 
 #Restore variables from disk.
-saver.restore(sess=session, save_path=restore_path)
 
-print_test_accuracy(False,True)
+if showRestore:
+    saver.restore(sess=session, save_path=restore_path)
+    print_test_accuracy(True)
 

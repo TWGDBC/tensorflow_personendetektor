@@ -2,7 +2,7 @@
 """
 Created on Tue April  18 09:37:35 2018
 
-Skript to Rotate and Swap defined Data of Profil 2, to create more Datasets
+Skript to Rotate and Swap defined Data, to create more Datasets
 Profil 3
 Creates data in /input_data/...
 
@@ -192,6 +192,8 @@ filename2_13 ='input_data/2p/v6/df_output_2018-05-16_18-28-36.csv'
 filename2_14 ='input_data/2p/v6/gc_output_2018-05-16_18-30-04.csv'
 filename2_15='input_data/2p/v6/je_output_2018-05-16_18-31-32.csv'
 filename2_16='input_data/2p/v6/ji_output_2018-05-16_18-32-57.csv'
+# testfile
+filename2_17 ='input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-49-54.csv'
 train_person2_files = [filename2_1,
                        filename2_2,
                        filename2_3,
@@ -207,7 +209,8 @@ train_person2_files = [filename2_1,
                        filename2_13, 
                        filename2_14, 
                        filename2_15,
-                       filename2_16]
+                       filename2_16,
+                       filename2_17]
 
 ## 3 Persons
 filename3_1 ='input_data/3p/v3/abc_output_2018-05-16_19-04-34.csv'
@@ -218,6 +221,8 @@ filename3_5 ='input_data/3p/v3/gei_output_2018-05-16_19-16-05.csv'
 filename3_6 ='input_data/3p/v3/gki_output_2018-05-16_19-19-22.csv'
 filename3_7 ='input_data/3p/v3/hdc_output_2018-05-16_19-22-34.csv'
 filename3_8 ='input_data/3p/v3/iea_output_2018-05-16_19-21-08.csv'
+## test file
+filename3_9 ='input_data/3p/v3/abi_output_2018-05-16_19-13-01.csv'
 train_person3_files = [filename3_1, 
                        filename3_2, 
                        filename3_3, 
@@ -225,7 +230,9 @@ train_person3_files = [filename3_1,
                        filename3_5, 
                        filename3_6, 
                        filename3_7, 
-                       filename3_8]
+                       filename3_8,
+                       filename3_9,
+                       ]
 
 ## 4 Personen
 filename4_1 ='input_data/4p/v3/p4_acdf_output_2018-05-16_19-26-26.csv'

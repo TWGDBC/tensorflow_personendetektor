@@ -20,6 +20,9 @@ import datetime
 #loading the data sets from the csv files
 print('--------load train & validation & test Files ------')
 
+## if True, also a testset is generated
+testSetON = True;
+
 trainImages = pd.DataFrame()
 trainLabels = pd.DataFrame()
 testImages = pd.DataFrame()
@@ -574,8 +577,16 @@ train_person4_files = [filename4_1,
 
 ## 0 Person
 filenameT0_1 = 'input_data/0p/rauschen_20_min_2018-03-13_14-09-29.csv'
-test_person0_files = [filenameT0_1]
-
+filenameT0_2 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52_rotate90.csv'
+filenameT0_3 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52_rotate180.csv'
+filenameT0_4 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52_rotate270.csv'
+filenameT0_5 = 'input_data/0p/v1/0p_output_2018-05-16_17-25-52_swap.csv'
+test_person0_files = [filenameT0_1,
+                      filenameT0_2,
+                      filenameT0_3,
+                      filenameT0_4,
+                      filenameT0_5,
+                      ]
 
 ## 1 Person
 filenameT1_1 = 'input_data/_M1_Bahnhof/m1_person_165_stehend_2018-03-12_17-59-25.csv'
@@ -590,12 +601,24 @@ test_person1_files = [filenameT1_1,
 
 ## 2 Persons
 filenameT2_1= 'input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-49-54.csv'
-test_person2_files = [filenameT2_1]
+filenameT2_2= 'input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-49-54_rotate90.csv'
+filenameT2_3= 'input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-49-54_rotate180.csv'
+filenameT2_4= 'input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-49-54_rotate270.csv'
+test_person2_files = [filenameT2_1,
+                      filenameT2_2,
+                      filenameT2_3, 
+                      filenameT2_4]
 
 ## 3 Persons
-test_person3_files = []
 
-
+filenameT3_1= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01.csv'
+filenameT3_2= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01_rotate90.csv'
+filenameT3_3= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01_rotate180.csv'
+filenameT3_4= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01_rotate270.csv'
+test_person3_files = [filenameT3_1,
+                      filenameT1_2,
+                      filenameT1_3, 
+                      filenameT1_4]
 
 ## 4 Persons
 test_person4_files = []
@@ -620,8 +643,8 @@ mergeFilesToTrainSet(train_person4_files,4)
 mergeFilesToTestSet(test_person0_files,0)
 mergeFilesToTestSet(test_person1_files,1)
 mergeFilesToTestSet(test_person2_files,2)
-#mergeFilesToTestSet(test_person3_files,3)
-#mergeFilesToTestSet(test_person4_files,4)
+mergeFilesToTestSet(test_person3_files,3)
+mergeFilesToTestSet(test_person4_files,4)
 
 ## adds Label NMBR of Persons
 #testImages.insert(64, 'Nmbr', range(0, 0 + len(testImages)))
@@ -630,30 +653,33 @@ mergeFilesToTestSet(test_person2_files,2)
 ###############################################################################
 # Store to 
 
-testImages.to_csv('prepared_data/testImages_'+
-                  str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
-                  '.csv',
-                  sep=',',
-                  encoding='utf-8',
-                  index=False)
 trainImages.to_csv('prepared_data/trainImages_'+
                   str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
                    '.csv',
                    sep=',',
                    encoding='utf-8',
                    index=False)
-testLabels.to_csv('prepared_data/testLabels_'+
-                  str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+#
+trainLabels.to_csv('prepared_data/trainLabels_'+
+                  str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
+                   '.csv',
+                   sep=',',
+                   encoding='utf-8',
+                   index=False)
+
+
+
+if testSetON:
+    testLabels.to_csv('prepared_data/testLabels_'+
+                      str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+#
+                      '.csv',
+                      sep=',',
+                      encoding='utf-8',
+                      index=False)
+    testImages.to_csv('prepared_data/testImages_'+
+                  str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
                   '.csv',
                   sep=',',
                   encoding='utf-8',
                   index=False)
-trainLabels.to_csv('prepared_data/trainLabels_'+
-                   str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))+
-                   '.csv',
-                   sep=',',
-
-                   encoding='utf-8',
-                   index=False)
 
 print("------finish Generating --------------------")

@@ -561,7 +561,7 @@ train_person4_files = [filename4_1,
 
 
 ## 0 Person
-filenameT0_1 = 'input_data/0p_rauschen/rauschen_20_min_2018-03-13_14-09-29.csv'
+filenameT0_1 = 'input_data/0p/rauschen_20_min_2018-03-13_14-09-29.csv'
 test_person0_files = [filenameT0_1]
 
 
@@ -581,21 +581,25 @@ filenameT2_1= 'input_data/_M2_Feld/m2_two_person_175_165_stehend_2018-03-12_18-4
 test_person2_files = [filenameT2_1]
 
 ## 3 Persons
-test_person3_files = []
+test_person3_files = [
+        
+        ]
 
 
 
 ## 4 Persons
-test_person4_files = []
+test_person4_files = [
+        
+        ]
 
 ###############################################################################
 # train set
 # merge all prepared train data
-mergeFilesToTrainSet(train_person0_files,0)
-mergeFilesToTrainSet(train_person1_files,1)
-mergeFilesToTrainSet(train_person2_files,2)
-mergeFilesToTrainSet(train_person3_files,3)
-mergeFilesToTrainSet(train_person4_files,4)
+#mergeFilesToTrainSet(train_person0_files,0)
+#mergeFilesToTrainSet(train_person1_files,1)
+#mergeFilesToTrainSet(train_person2_files,2)
+#mergeFilesToTrainSet(train_person3_files,3)
+#mergeFilesToTrainSet(train_person4_files,4)
 
 ## adds image NMBR
 #trainImages.insert(64, 'Nmbr', range(0, 0 + len(trainImages)))
@@ -608,8 +612,8 @@ mergeFilesToTrainSet(train_person4_files,4)
 mergeFilesToTestSet(test_person0_files,0)
 mergeFilesToTestSet(test_person1_files,1)
 mergeFilesToTestSet(test_person2_files,2)
-#mergeFilesToTestSet(test_person3_files,3)
-#mergeFilesToTestSet(test_person4_files,4)
+mergeFilesToTestSet(test_person3_files,3)
+mergeFilesToTestSet(test_person4_files,4)
 
 ## adds Label NMBR of Persons
 #testImages.insert(64, 'Nmbr', range(0, 0 + len(testImages)))
