@@ -126,23 +126,23 @@ def read_data_sets(train_dir,
 #############
 # uncomment to use the correct Profil
     
-    TRAIN_IMAGES = 'Profil1E_trainImages_2018-05-22_10-14-10.csv'    # Profil 1
-    #TRAIN_IMAGES = 'Profil2E_trainImages_2018-05-22_10-16-01.csv'    # Profil 2 
+    #TRAIN_IMAGES = 'Profil1E_trainImages_2018-05-22_10-14-10.csv'    # Profil 1
+    TRAIN_IMAGES = 'Profil2E_trainImages_2018-05-22_10-16-01.csv'    # Profil 2 
     #TRAIN_IMAGES = 'Profil3E_trainImages_2018-05-22_10-16-40.csv'    # Profil 3
 
-    TRAIN_LABELS ='Profil1E_trainLabels_2018-05-22_10-14-22.csv'    # Profil 1
-    #TRAIN_LABELS ='Profil2E_trainLabels_2018-05-22_10-16-15.csv'    # Profil 2
+    #TRAIN_LABELS ='Profil1E_trainLabels_2018-05-22_10-14-22.csv'    # Profil 1
+    TRAIN_LABELS ='Profil2E_trainLabels_2018-05-22_10-16-15.csv'    # Profil 2
     #TRAIN_LABELS ='Profil3E_trainLabels_2018-05-22_10-17-01.csv'    # Profil 3
 
     #TEST_IMAGES  = 'TEST_testImages_2018-05-22_10-58-23.csv' # Test Profil
-    #TEST_IMAGES = 'Profil1E_trainImages_2018-05-22_10-14-10.csv'    # Profil 1
+    TEST_IMAGES = 'Profil1E_trainImages_2018-05-22_10-14-10.csv'    # Profil 1
     #TEST_IMAGES = 'Profil2E_trainImages_2018-05-22_10-16-01.csv'    # Profil 2 
-    TEST_IMAGES = 'Profil3E_trainImages_2018-05-22_10-16-40.csv'    # Profil 3
+    #TEST_IMAGES = 'Profil3E_trainImages_2018-05-22_10-16-40.csv'    # Profil 3
              
     #TEST_LABELS  ='TEST_testLabels_2018-05-22_10-58-23.csv'  #Test Profil
-    #TEST_LABELS ='Profil1E_trainLabels_2018-05-22_10-14-22.csv'    # Profil 1
+    TEST_LABELS ='Profil1E_trainLabels_2018-05-22_10-14-22.csv'    # Profil 1
     #TEST_LABELS ='Profil2E_trainLabels_2018-05-22_10-16-15.csv'    # Profil 2
-    TEST_LABELS ='Profil3E_trainLabels_2018-05-22_10-17-01.csv'    # Profil 3    
+    #TEST_LABELS ='Profil3E_trainLabels_2018-05-22_10-17-01.csv'    # Profil 3    
 
     
 

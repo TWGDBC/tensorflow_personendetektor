@@ -43,8 +43,8 @@ learning_rate = 0.001
 num_iterations = 10000
 # batch sizes
 validation_size = 25000
-train_batch_size = 500 # batch size is ~1% of the training size
-test_batch_size = 50   # batch size is ~1 % of the test size
+train_batch_size = 500  # batch size is ~1% of the training size
+test_batch_size = 200   # batch size is ~1 % of the test size
 # Stop optimization if no improvement found in this many iterations.
 require_improvement = 1000
 ###############################################################################
@@ -63,11 +63,6 @@ filter_size3 = 3      # Convolution filters are 3 x 3 pixels.
 num_filters3 = 32     # There are 36 of these filters.
 strides3 = 1
 poolsize3 = 2
-# Convolutional Layer 4.
-filter_size4 = 3      # Convolution filters are 3 x 3 pixels.
-num_filters4 = 32     # There are 36 of these filters.
-strides4 = 1
-poolsize4 = 2
 #fully-connected layer size --> fc_size klein halten, Exponential features
 fc_size = 54
 ###############################################################################
