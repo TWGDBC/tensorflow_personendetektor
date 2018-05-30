@@ -25,7 +25,22 @@ print(tf.__version__)
 # ATTENTITON Projectpath must be declared
 projectpath = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/'
 # to restore an created model use this line and uncomment
-restore_path = projectpath+'model_2018-05-24_15-29-13.ckpt'
+#restore_path = projectpath+'model_2018-05-24_15-29-13.ckpt'
+#restore_path = 'projectpath+model_2018-05-22_13-20-01.ckpt'
+#restore_path = 'projectpath+model_2018-05-22_16-06-23.ckpt'
+#restore_path = projectpath+'model_2018-05-22_13-20-01.ckpt'
+#restore_path = projectpath+'model_2018-05-30_11-37-54.ckpt'
+
+#restore_path = projectpath+'model_2018-05-30_12-17-57.ckpt'
+#restore_path = projectpath+'model_2018-05-30_12-36-38.ckpt'
+#restore_path = projectpath+'model_2018-05-30_14-16-06.ckpt'
+#restore_path = projectpath+'model_2018-05-30_14-33-44.ckpt'
+
+#restore_path = projectpath+'model_2018-05-30_16-34-17.ckpt'
+#restore_path = projectpath+'model_2018-05-30_19-21-36.ckpt'
+restore_path = projectpath+'model_2018-05-30_19-53-57.ckpt'
+
+
 showRestore = True;
 showOptimize = False;
 #showRestore = False;
@@ -42,29 +57,29 @@ learning_rate = 0.001
 # number of iterations
 num_iterations = 10000
 # batch sizes
-validation_size = 25000
-train_batch_size = 500  # batch size is ~1% of the training size
-test_batch_size = 200   # batch size is ~1 % of the test size
+validation_size = 50000
+train_batch_size = 1500  # batch size is ~1% of the training size
+test_batch_size = 500   # batch size is ~1 % of the test size
 # Stop optimization if no improvement found in this many iterations.
 require_improvement = 1000
 ###############################################################################
 # Convolutional Layer 1.
-filter_size1 = 3      # Convolution filters are 5 x 5 pixels.
-num_filters1 = 16     # There are 16 of these filters.
+filter_size1 = 6      # Convolution filters are 5 x 5 pixels.
+num_filters1 =  16    # There are 16 of these filters.
 strides1 = 1
 poolsize1 = 2
 # Convolutional Layer 2.
-filter_size2 = 3      # Convolution filters are 3 x 3 pixels.
-num_filters2 = 16     # There are 36 of these filters.
+filter_size2 = 4      # Convolution filters are 3 x 3 pixels.
+num_filters2 = 36     # There are 36 of these filters.
 strides2 = 1
-poolsize2 = 3
+poolsize2 = 2
 # Convolutional Layer 3.
 filter_size3 = 3      # Convolution filters are 3 x 3 pixels.
-num_filters3 = 32     # There are 36 of these filters.
+num_filters3 = 36     # There are 36 of these filters.
 strides3 = 1
 poolsize3 = 2
 #fully-connected layer size --> fc_size klein halten, Exponential features
-fc_size = 54
+fc_size = 64
 ###############################################################################
 # Helper Variables
 ###############################################################################
@@ -409,7 +424,7 @@ pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=poolsize2, strides=strid
 ## conv layer 3
 conv3 = tf.layers.conv2d(inputs=pool2, name='layer_conv3', padding='same',
                        filters=num_filters3, kernel_size=filter_size3, activation=tf.nn.relu)
-#pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=poolsize3, strides=strides3)
+pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=poolsize3, strides=strides3)
 ###############################################################################
 ## conv layer 4
 #conv4 = tf.layers.conv2d(inputs=pool3, name='layer_conv4', padding='same',
@@ -417,10 +432,11 @@ conv3 = tf.layers.conv2d(inputs=pool2, name='layer_conv3', padding='same',
 #pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=poolsize4, strides=strides4)
 ###############################################################################
 # flatten layer
-flatten = tf.layers.flatten(conv3)
+flatten = tf.layers.flatten(pool3)
 # Fully connected layer
 fc1 = tf.layers.dense(inputs=flatten, name='layer_fc1',
                       units=fc_size, activation=tf.nn.relu)
+###############################################################################
 fc2 = tf.layers.dense(inputs=fc1, name='layer_fc_out',
                       units=cnt_classes, activation=None)
 
@@ -434,7 +450,6 @@ cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(labels=cnt_true, logi
 loss = tf.reduce_mean(cross_entropy, name= "loss")
     
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
-
 
 ## Alle nicht optimal für lösung
 #optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(loss)

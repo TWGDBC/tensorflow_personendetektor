@@ -25,7 +25,7 @@ print(tf.__version__)
 # ATTENTITON Projectpath must be declared
 projectpath = 'C:/Users/User/switchdrive/HSLU_6_Semester/BAT/projects/Tensorflow/tmp/'
 # to restore an created model use this line and uncomment
-restore_path = projectpath+'model_2018-05-25_00-03-05.ckpt'
+restore_path = projectpath+'model_2018-05-27_22-49-52.ckpt'
 showRestore = True;
 showOptimize = False;
 #showRestore = False;
@@ -43,33 +43,28 @@ learning_rate = 0.001
 num_iterations = 10000
 # batch sizes
 validation_size = 25000
-train_batch_size = 500 # batch size is ~1% of the training size
-test_batch_size = 50   # batch size is ~1 % of the test size
+train_batch_size = 1000  # batch size is ~1% of the training size
+test_batch_size = 200   # batch size is ~1 % of the test size
 # Stop optimization if no improvement found in this many iterations.
 require_improvement = 1000
 ###############################################################################
 # Convolutional Layer 1.
-filter_size1 = 6      # Convolution filters are 5 x 5 pixels.
-num_filters1 = 8     # There are 16 of these filters.
+filter_size1 = 3      # Convolution filters are 5 x 5 pixels.
+num_filters1 = 30     # There are 16 of these filters.
 strides1 = 1
 poolsize1 = 2
 # Convolutional Layer 2.
 filter_size2 = 3      # Convolution filters are 3 x 3 pixels.
-num_filters2 = 16     # There are 16 of these filters.
+num_filters2 = 16     # There are 36 of these filters.
 strides2 = 1
-poolsize2 = 2
+poolsize2 = 3
 # Convolutional Layer 3.
-filter_size3 = 3      # Convolution filters are 3 x 3 pixels.
-num_filters3 = 16     # There are 32 of these filters.
+filter_size3 = 2      # Convolution filters are 3 x 3 pixels.
+num_filters3 = 96     # There are 36 of these filters.
 strides3 = 1
-poolsize3 = 3
-# Convolutional Layer 4.
-filter_size4 = 3      # Convolution filters are 3 x 3 pixels.
-num_filters4 = 32     # There are 32 of these filters.
-strides4 = 1
-poolsize4 = 2
+poolsize3 = 2
 #fully-connected layer size --> fc_size klein halten, Exponential features
-fc_size = 54
+fc_size = 32
 ###############################################################################
 # Helper Variables
 ###############################################################################
@@ -402,23 +397,26 @@ cnt_true_cls = tf.argmax(cnt_true, axis=1)
 # create a layer implementation
 pixel_input = Pixel_image
 # conv layer 1
+# create a layer implementation
+pixel_input = Pixel_image
+# conv layer 1
 conv1 = tf.layers.conv2d(inputs=pixel_input, name='layer_conv1', padding='same',
                        filters=num_filters1, kernel_size=filter_size1, activation=tf.nn.relu)
-#pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=poolsize1, strides=strides1)
+pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=poolsize1, strides=strides1)
 ###############################################################################
 # conv layer 2
-conv2 = tf.layers.conv2d(inputs=conv1, name='layer_conv2', padding='same',
+conv2 = tf.layers.conv2d(inputs=pool1, name='layer_conv2', padding='same',
                        filters=num_filters2, kernel_size=filter_size2, activation=tf.nn.relu)
 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=poolsize2, strides=strides2)
 ###############################################################################
 ## conv layer 3
 conv3 = tf.layers.conv2d(inputs=pool2, name='layer_conv3', padding='same',
                        filters=num_filters3, kernel_size=filter_size3, activation=tf.nn.relu)
-pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=poolsize3, strides=strides3)
+#pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=poolsize3, strides=strides3)
 ###############################################################################
 ## conv layer 4
-conv4 = tf.layers.conv2d(inputs=pool3, name='layer_conv4', padding='same',
-                       filters=num_filters4, kernel_size=filter_size4, activation=tf.nn.relu)
+#conv4 = tf.layers.conv2d(inputs=pool3, name='layer_conv4', padding='same',
+#                       filters=num_filters4, kernel_size=filter_size4, activation=tf.nn.relu)
 #pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=poolsize4, strides=strides4)
 ###############################################################################
 # flatten layer
@@ -428,7 +426,6 @@ fc1 = tf.layers.dense(inputs=flatten, name='layer_fc1',
                       units=fc_size, activation=tf.nn.relu)
 fc2 = tf.layers.dense(inputs=fc1, name='layer_fc_out',
                       units=cnt_classes, activation=None)
-
 logits = fc2
 cnt_pred = tf.nn.softmax(logits=logits)
 # compare
@@ -439,8 +436,6 @@ cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(labels=cnt_true, logi
 loss = tf.reduce_mean(cross_entropy, name= "loss")
     
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
-
-
 ## Alle nicht optimal für lösung
 #optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(loss)
 #optimizer = tf.train.RMSPropOptimizer(learning_rate=learning_rate).minimize(loss)

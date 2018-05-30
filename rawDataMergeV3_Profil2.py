@@ -21,7 +21,7 @@ import datetime
 print('--------load train & validation & test Files ------')
 
 ## if True, also a testset is generated
-testSetON = False;
+testSetON = True;
 
 trainImages = pd.DataFrame()
 trainLabels = pd.DataFrame()
@@ -611,12 +611,19 @@ filenameT3_2= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01_rotate90.csv'
 filenameT3_3= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01_rotate180.csv'
 filenameT3_4= 'input_data/3p/v3/abi_output_2018-05-16_19-13-01_rotate270.csv'
 test_person3_files = [filenameT3_1,
-                      filenameT1_2,
-                      filenameT1_3, 
-                      filenameT1_4]
+                      filenameT3_2,
+                      filenameT3_3, 
+                      filenameT3_4]
 
 ## 4 Persons
-test_person4_files = []
+filenameT4_1 ='input_data/4p/v2/p4_acdf_output_2018-05-09_17-55-36.csv'
+filenameT4_2 ='input_data/4p/v2/p4_acjl_output_2018-05-09_17-53-29.csv'
+filenameT4_3 ='input_data/4p/v2/p4_adgj_output_2018-05-09_17-58-42.csv'
+filenameT4_4 ='input_data/4p/v2/p4_dfac_output_2018-05-09_18-03-01.csv'
+test_person4_files = [filenameT4_1,
+                      filenameT4_2,
+                      filenameT4_3,
+                      filenameT4_4]
 
 ###############################################################################
 # train set
